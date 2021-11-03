@@ -123,43 +123,64 @@ class IpaymuController extends Controller
         $secret       = '0484352A-4B99-4D46-BB4E-C77C7958FAAF'; //get on iPaymu dashboard
 
         $url          = 'https://my.ipaymu.com/api/v2/transaction'; //url
-        $method       = 'POST';
+        $method       = 'POST'; //method
 
-        $jsonBody     = json_encode(JSON_UNESCAPED_SLASHES);
+        //Request Body//
+        $body['transactionId']    = $id;
+        
+        //End Request Body//
+
+        //Generate Signature
+        // *Don't change this
+        $jsonBody     = json_encode($body, JSON_UNESCAPED_SLASHES);
         $requestBody  = strtolower(hash('sha256', $jsonBody));
         $stringToSign = strtoupper($method) . ':' . $va . ':' . $requestBody . ':' . $secret;
         $signature    = hash_hmac('sha256', $stringToSign, $secret);
         $timestamp    = Date('YmdHis');
+        //End Generate Signature
 
-        $curl = curl_init();
 
-        curl_setopt_array($curl, array(
-          CURLOPT_URL => $url,
-          CURLOPT_RETURNTRANSFER => true,
-          CURLOPT_ENCODING => '',
-          CURLOPT_MAXREDIRS => 10,
-          CURLOPT_TIMEOUT => 0,
-          CURLOPT_FOLLOWLOCATION => true,
-          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-          CURLOPT_CUSTOMREQUEST => $method,
-          CURLOPT_POSTFIELDS => array('transactionId' => $id),
-          CURLOPT_HTTPHEADER => array(
+        $ch = curl_init($url);
+
+        $headers = array(
+            'Accept: application/json',
             'Content-Type: application/json',
-            'signature:'.  $signature,
-            'va:'. $va,
-            'timestamp: 20191209155701'
-          ),
-        ));
-        
-        $response = curl_exec($curl);
-        
-        curl_close($curl);
-        echo $response;
+            'va: ' . $va,
+            'signature: ' . $signature,
+            'timestamp: ' . $timestamp
+        );
 
-         //method
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
-        //Request Body//
-        
+        curl_setopt($ch, CURLOPT_POST, count($body));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonBody);
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        $err = curl_error($ch);
+        $ret = curl_exec($ch);
+        curl_close($ch);
+        if($err) {
+            echo $err;
+        } else {
+
+            //Response
+            $ret = json_decode($ret);
+            if($ret->Status == 200) {
+                $sessionId  = $ret->Data->SessionID;
+                $url        =  $ret->Data->Url;
+
+                print $sessionId;
+                print $url;
+                // header('Location:' . $url);
+            } else {
+                print $ret->Status;
+                $pesan = 'Eroor';
+            }
+            //End Response
+        }
 
 
         
