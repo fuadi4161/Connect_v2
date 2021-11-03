@@ -78,7 +78,7 @@ class IpaymuController extends Controller
                 $url        =  $ret->Data->Url;
                 header('Location:' . $url);
             } else {
-                echo $rets->result();
+               print('failed');
             }
             //End Response
         }
