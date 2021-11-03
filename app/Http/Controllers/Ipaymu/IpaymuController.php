@@ -20,8 +20,8 @@ class IpaymuController extends Controller
 
 
 
-        $va           = '0000001294658309'; //get on iPaymu dashboard
-        $secret       = 'SANDBOX93D35640-3D9B-4D79-BDC8-0DBDCCEA7625-20211103065253'; //get on iPaymu dashboard
+        $va           = '1179001294658309'; //get on iPaymu dashboard
+        $secret       = '0484352A-4B99-4D46-BB4E-C77C7958FAAF'; //get on iPaymu dashboard
 
         $url          = 'https://sandbox.ipaymu.com/api/v2/payment/direct'; //url
         $method       = 'POST'; //method
