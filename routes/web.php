@@ -18,7 +18,7 @@ Route::get('/', function () {
 });
 // Route::get('/produk/{harga}/{qty}', 'Ipaymu\IpaymuController@index')->name('produk');
 Route::get('/produk', 'Ipaymu\IpaymuController@index')->name('produk');
-Route::get('/produk/{id}', 'Ipaymu\IpaymuController@show');
+Route::get('/produk/{id}', 'Ipaymu\IpaymuController@ipaymuGateway')->name('cekout');
 
 Auth::routes();
 

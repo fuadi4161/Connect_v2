@@ -17,7 +17,21 @@ class IpaymuController extends Controller
      */
     public function index()
     {   
-
+        $produk = DB::table('produk')->get();
+        return view('pages.produk',compact('produk'));
+    }
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function ipaymuGateway($id)
+    {
+        $produk = DB::table('produk')->where('id', '=', $id)->get();
+        foreach($produk as $items){
+            $namaproduk= $items->nama;
+            $hargaproduk= $items->harga;
+        }
 
         $va           = '1179001294658309'; //get on iPaymu dashboard
         $secret       = '0484352A-4B99-4D46-BB4E-C77C7958FAAF'; //get on iPaymu dashboard
@@ -26,9 +40,9 @@ class IpaymuController extends Controller
         $method       = 'POST'; //method
 
         //Request Body//
-        $body['product']    = array('headset');
+        $body['product']    = array($namaproduk);
         $body['qty']        = array('1');
-        $body['price']      = array('10000');
+        $body['price']      = array($hargaproduk);
         $body['email']      = 'fuadz@gmail.com';
         $body['returnUrl']  = 'https://mywebsite.com/thankyou';
         $body['cancelUrl']  = 'https://mywebsite.com/cancel';
@@ -76,27 +90,12 @@ class IpaymuController extends Controller
             if($ret->Status == 200) {
                 $sessionId  = $ret->Data->SessionID;
                 $url        =  $ret->Data->Url;
-
-                print $sessionId;
-                print $url;
-                // header('Location:' . $url);
+                header('Location:' . $url);
             } else {
                 print $ret->Status;
-                $pesan = 'Eroor';
             }
             //End Response
         }
-        
-                
-    }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
