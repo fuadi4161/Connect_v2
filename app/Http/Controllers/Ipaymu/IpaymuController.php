@@ -25,9 +25,9 @@ class IpaymuController extends Controller
         $method       = 'POST'; //method
 
         //Request Body//
-        $body['product']    = array('headset', 'softcase');
-        $body['qty']        = array('1', '3');
-        $body['price']      = array('100000', '20000');
+        $body['product']    = array(['headset', 'softcase']);
+        $body['qty']        = array(['1', '3']);
+        $body['price']      = array(['100000', '20000']);
         $body['returnUrl']  = 'https://mywebsite.com/thankyou';
         $body['cancelUrl']  = 'https://mywebsite.com/cancel';
         $body['notifyUrl']  = 'https://mywebsite.com/notify';

@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+// Route::get('/produk/{harga}/{qty}', 'Ipaymu\IpaymuController@index')->name('produk');
 Route::get('/produk', 'Ipaymu\IpaymuController@index')->name('produk');
 
 Auth::routes();
