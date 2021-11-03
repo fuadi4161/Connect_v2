@@ -16,12 +16,13 @@ class IpaymuController extends Controller
      */
     public function index()
     {
+
         
 
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-        CURLOPT_URL => 'https://sandbox.ipaymu.com/api/v2/payment',
+        CURLOPT_URL => 'https://ipaymu.com/api/v2/payment',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
