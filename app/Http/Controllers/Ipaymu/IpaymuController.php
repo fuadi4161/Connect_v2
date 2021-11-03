@@ -76,8 +76,12 @@ class IpaymuController extends Controller
             if($ret->Status == 200) {
                 $sessionId  = $ret->Data->SessionID;
                 $url        =  $ret->Data->Url;
+
+                print $sessionId;
+                print $url;
                 // header('Location:' . $url);
             } else {
+                print $ret->Status;
                 $pesan = 'Eroor';
             }
             //End Response
