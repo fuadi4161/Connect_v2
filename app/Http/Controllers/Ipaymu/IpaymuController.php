@@ -23,13 +23,14 @@ class IpaymuController extends Controller
         $va           = '0000001294658309'; //get on iPaymu dashboard
         $secret       = 'SANDBOX93D35640-3D9B-4D79-BDC8-0DBDCCEA7625-20211103065253'; //get on iPaymu dashboard
 
-        $url          = 'https://sandbox.ipaymu.com/api/v2/payment'; //url
+        $url          = 'https://sandbox.ipaymu.com/api/v2/payment/direct'; //url
         $method       = 'POST'; //method
 
         //Request Body//
         $body['product']    = array('headset');
         $body['qty']        = array('1');
         $body['price']      = array('10000');
+        $body['email']      = 'fuadz@gmail.com';
         $body['returnUrl']  = 'https://mywebsite.com/thankyou';
         $body['cancelUrl']  = 'https://mywebsite.com/cancel';
         $body['notifyUrl']  = 'https://mywebsite.com/notify';
