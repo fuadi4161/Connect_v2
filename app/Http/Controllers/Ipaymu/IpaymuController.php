@@ -18,6 +18,8 @@ class IpaymuController extends Controller
     public function index()
     {
 
+
+
         $va           = '0000001294658309'; //get on iPaymu dashboard
         $secret       = 'SANDBOX93D35640-3D9B-4D79-BDC8-0DBDCCEA7625-20211103065253'; //get on iPaymu dashboard
 
@@ -25,9 +27,9 @@ class IpaymuController extends Controller
         $method       = 'POST'; //method
 
         //Request Body//
-        $body['product']    = array(['headset', 'softcase']);
-        $body['qty']        = array(['1', '3']);
-        $body['price']      = array(['100000', '20000']);
+        $body['product']    = array(['headset']);
+        $body['qty']        = array(['1']);
+        $body['price']      = array(['10000']);
         $body['returnUrl']  = 'https://mywebsite.com/thankyou';
         $body['cancelUrl']  = 'https://mywebsite.com/cancel';
         $body['notifyUrl']  = 'https://mywebsite.com/notify';
