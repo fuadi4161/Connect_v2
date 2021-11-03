@@ -18,8 +18,6 @@ class IpaymuController extends Controller
     public function index()
     {
 
-         // SAMPLE HIT API iPaymu v2 PHP //
-
         $va           = '0000001294658309'; //get on iPaymu dashboard
         $secret       = 'SANDBOX93D35640-3D9B-4D79-BDC8-0DBDCCEA7625-20211103065253'; //get on iPaymu dashboard
 
@@ -42,46 +40,31 @@ class IpaymuController extends Controller
         $stringToSign = strtoupper($method) . ':' . $va . ':' . $requestBody . ':' . $secret;
         $signature    = hash_hmac('sha256', $stringToSign, $secret);
         $timestamp    = Date('YmdHis');
-        //End Generate Signature
 
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'signature' => $signature ,
+            'va' => '1179000899',
+            'timestamp' => '20191209155701'
+        ])->post('https://sandbox.ipaymu.com/api/v2/payment', [
+            'product[]' => 'Baju',
+            'qty[]' => '1',
+            'price[]' => '10000',
+            'description[]' => 'Baju1',
+            'returnUrl' => 'https://ipaymu.com/return',
+            'notifyUrl' => 'https://ipaymu.com/notify',
+            'cancelUrl' => 'https://ipaymu.com/cancel',
+            'referenceId' => 'ID1234',
+            'weight[]' => '1',
+            'dimension[]' => '1:1:1',
+            'buyerName' => 'putu',
+            'buyerEmail' => 'putu@mail.com',
+            'buyerPhone' => '08123456789',
+            'pickupArea' => '80117',
+            'pickupAddress' => 'Jakarta',
+        ]);
 
-        $ch = curl_init($url);
-
-        $headers = array(
-            'Accept: application/json',
-            'Content-Type: application/json',
-            'va: ' . $va,
-            'signature: ' . $signature,
-            'timestamp: ' . $timestamp
-        );
-
-        curl_setopt($ch, CURLOPT_HEADER, false);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-        curl_setopt($ch, CURLOPT_POST, count($body));
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonBody);
-
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-        $err = curl_error($ch);
-        $ret = curl_exec($ch);
-        curl_close($ch);
-        if($err) {
-            echo $err;
-        } else {
-
-            //Response
-            $rets = json_decode($ret);
-            if($rets->Status == 200) {
-                $sessionId  = $ret->Data->SessionID;
-                $url        =  $ret->Data->Url;
-                header('Location:' . $url);
-            } else {
-               print('failed');
-            }
-            //End Response
-        }
+        print $response;
 
         
                 
