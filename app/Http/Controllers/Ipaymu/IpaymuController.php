@@ -16,10 +16,12 @@ class IpaymuController extends Controller
      */
     public function index()
     {
+        
+
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-        CURLOPT_URL => 'https://sandbox.ipaymu.com/api/v2/payment/direct',
+        CURLOPT_URL => 'https://sandbox.ipaymu.com/api/v2/payment',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -27,7 +29,7 @@ class IpaymuController extends Controller
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => 'POST',
-        CURLOPT_POSTFIELDS => array('name' => 'Buyer','phone' => '081999501092','email' => 'buyer@mail.com','amount' => '10000','notifyUrl' => 'https://mywebsite.com','expired' => '24','expiredType' => 'hours','comments' => 'Catatan','referenceId' => '1','paymentMethod' => 'va','paymentChannel' => 'bri','product[]' => 'produk 1','qty[]' => '1','price[]' => '10000','weight[]' => '1','width[]' => '1','height[]' => '1','length[]' => '1','deliveryArea' => '76111','deliveryAddress' => 'Denpasar'),
+        CURLOPT_POSTFIELDS => array('product[]' => 'Baju','qty[]' => '1','price[]' => '10000','description[]' => 'Baju1','returnUrl' => 'https://ipaymu.com/return','notifyUrl' => 'https://ipaymu.com/notify','cancelUrl' => 'https://ipaymu.com/cancel','referenceId' => 'ID1234','weight[]' => '1','dimension[]' => '1:1:1','buyerName' => 'putu','buyerEmail' => 'putu@mail.com','buyerPhone' => '08123456789','pickupArea' => '80117','pickupAddress' => 'Jakarta'),
         CURLOPT_HTTPHEADER => array(
             'Content-Type: application/json',
             'signature: [object Object]',
@@ -40,7 +42,6 @@ class IpaymuController extends Controller
 
         curl_close($curl);
         echo $response;
-
         
     }
     /**
