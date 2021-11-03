@@ -118,7 +118,51 @@ class IpaymuController extends Controller
      */
     public function show($id)
     {
-        //
+
+        $va           = '1179001294658309'; //get on iPaymu dashboard
+        $secret       = '0484352A-4B99-4D46-BB4E-C77C7958FAAF'; //get on iPaymu dashboard
+
+        $url          = 'https://my.ipaymu.com/api/v2/transaction'; //url
+        $method       = 'POST';
+
+        $jsonBody     = json_encode(JSON_UNESCAPED_SLASHES);
+        $requestBody  = strtolower(hash('sha256', $jsonBody));
+        $stringToSign = strtoupper($method) . ':' . $va . ':' . $requestBody . ':' . $secret;
+        $signature    = hash_hmac('sha256', $stringToSign, $secret);
+        $timestamp    = Date('YmdHis');
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => $url,
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => '',
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 0,
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => $method,
+          CURLOPT_POSTFIELDS => array('transactionId' => $id),
+          CURLOPT_HTTPHEADER => array(
+            'Content-Type: application/json',
+            'signature:'.  $signature,
+            'va:'. $va,
+            'timestamp: 20191209155701'
+          ),
+        ));
+        
+        $response = curl_exec($curl);
+        
+        curl_close($curl);
+        echo $response;
+
+         //method
+
+        //Request Body//
+        
+
+
+        
     }
 
     /**
