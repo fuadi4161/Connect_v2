@@ -21,7 +21,7 @@ class IpaymuController extends Controller
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
             'signature' => '[object Object]',
-            'va' => '0000001294658309',
+            'va' => '1179000899',
             'timestamp' => '20191209155701'
         ])->post('https://sandbox.ipaymu.com/api/v2/payment', [
             'product[]' => 'Baju',
