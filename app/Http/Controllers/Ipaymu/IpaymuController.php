@@ -19,7 +19,7 @@ class IpaymuController extends Controller
         $produk = DB::table('produk')->get();
 
         $array= array(
-            'key' =>'',
+            'key' =>'SANDBOX93D35640-3D9B-4D79-BDC8-0DBDCCEA7625-20211103065253',
             'action'=>'payment',
             'product'=>'product 1',
             'price'=> '10000',
