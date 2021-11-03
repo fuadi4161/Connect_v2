@@ -17,33 +17,50 @@ class IpaymuController extends Controller
     public function index()
     {
 
-        
-
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-        CURLOPT_URL => 'https://ipaymu.com/api/v2/payment',
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => '',
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 0,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => 'POST',
-        CURLOPT_POSTFIELDS => array('product[]' => 'Baju','qty[]' => '1','price[]' => '10000','description[]' => 'Baju1','returnUrl' => 'https://ipaymu.com/return','notifyUrl' => 'https://ipaymu.com/notify','cancelUrl' => 'https://ipaymu.com/cancel','referenceId' => 'ID1234','weight[]' => '1','dimension[]' => '1:1:1','buyerName' => 'putu','buyerEmail' => 'putu@mail.com','buyerPhone' => '08123456789','pickupArea' => '80117','pickupAddress' => 'Jakarta'),
-        CURLOPT_HTTPHEADER => array(
-            'Content-Type: application/json',
-            'signature: [object Object]',
-            'va: 1179000899',
-            'timestamp: 20191209155701'
-        ),
+        require_once 'HTTP/Request2.php';
+        $request = new HTTP_Request2();
+        $request->setUrl('https://sandbox.ipaymu.com/api/v2/payment');
+        $request->setMethod(HTTP_Request2::METHOD_POST);
+        $request->setConfig(array(
+        'follow_redirects' => TRUE
         ));
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-        echo $response;
-        
+        $request->setHeader(array(
+        'Content-Type' => 'application/json',
+        'signature' => '[object Object]',
+        'va' => '0000001294658309',
+        'timestamp' => '20191209155701'
+        ));
+        $request->addPostParameter(array(
+        'product[]' => 'Baju',
+        'qty[]' => '1',
+        'price[]' => '10000',
+        'description[]' => 'Baju1',
+        'returnUrl' => 'https://ipaymu.com/return',
+        'notifyUrl' => 'https://ipaymu.com/notify',
+        'cancelUrl' => 'https://ipaymu.com/cancel',
+        'referenceId' => 'ID1234',
+        'weight[]' => '1',
+        'dimension[]' => '1:1:1',
+        'buyerName' => 'putu',
+        'buyerEmail' => 'putu@mail.com',
+        'buyerPhone' => '08123456789',
+        'pickupArea' => '80117',
+        'pickupAddress' => 'Jakarta'
+        ));
+        try {
+        $response = $request->send();
+        if ($response->getStatus() == 200) {
+            echo $response->getBody();
+        }
+        else {
+            echo 'Unexpected HTTP status: ' . $response->getStatus() . ' ' .
+            $response->getReasonPhrase();
+        }
+        }
+        catch(HTTP_Request2_Exception $e) {
+        echo 'Error: ' . $e->getMessage();
+        }
+                
     }
     /**
      * Show the form for creating a new resource.
