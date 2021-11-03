@@ -16,8 +16,7 @@ class IpaymuController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-
+    {   
 
 
         $va           = '1179001294658309'; //get on iPaymu dashboard
@@ -77,7 +76,7 @@ class IpaymuController extends Controller
             if($ret->Status == 200) {
                 $sessionId  = $ret->Data->SessionID;
                 $url        =  $ret->Data->Url;
-                header('Location:' . $url);
+                // header('Location:' . $url);
             } else {
                 $pesan = 'Eroor';
             }
