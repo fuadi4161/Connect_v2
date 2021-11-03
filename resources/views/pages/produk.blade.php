@@ -17,8 +17,9 @@
             <div class="card m-2" style="width: 18rem;">
                 <img src="https://i.pinimg.com/564x/0a/50/f9/0a50f94bc99d831e7159ad21d4893c48.jpg" class="card-img-top" alt="...">
                 <div class="card-body">
-                  <h5 class="card-title">Rp.{{ $item->harga}}</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  <h5 class="card-title">{{ $item->nama}}</h5>
+                  <p class="card-text">{{$item->deskripsi}}</p>
+                  <h5 class="card-text">Rp.{{$item->harga}}</h5>
                   <a href="{{route('cekout',''.$item->id)}}" class="btn btn-primary">Beli</a>
                 </div>
               </div>
