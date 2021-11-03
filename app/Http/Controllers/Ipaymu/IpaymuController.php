@@ -18,36 +18,63 @@ class IpaymuController extends Controller
     {
         $produk = DB::table('produk')->get();
 
-        $array = array(
-            'name' => 'Buyer',
-            'phone' => '081999501092',
-            'email' => 'buyer@mail.com',
-            'amount' => '10000',
-            'notifyUrl' => 'https://connect.ip2sr.site',
-                'expired' => '24',
-                'expiredType' => 'hours',
-                'comments' => 'Catatan',
-                'referenceId' => '1',
-                'paymentMethod' => 'va',
-                'paymentChannel' => 'bri',
-                'product[]' => 'produk 1',
-                'qty[]' => '1',
-                'price[]' => '10000',
-                'weight[]' => '1',
-                'width[]' => '1',
-                'height[]' => '1',
-                'length[]' => '1',
-                'deliveryArea' => '76111',
-                'deliveryAddress' => 'Denpasar'
+        // $array = array(
+        //     'name' => 'Buyer',
+        //     'phone' => '081999501092',
+        //     'email' => 'buyer@mail.com',
+        //     'amount' => '10000',
+        //     'notifyUrl' => 'https://connect.ip2sr.site',
+        //         'expired' => '24',
+        //         'expiredType' => 'hours',
+        //         'comments' => 'Catatan',
+        //         'referenceId' => '1',
+        //         'paymentMethod' => 'va',
+        //         'paymentChannel' => 'bri',
+        //         'product[]' => 'produk 1',
+        //         'qty[]' => '1',
+        //         'price[]' => '10000',
+        //         'weight[]' => '1',
+        //         'width[]' => '1',
+        //         'height[]' => '1',
+        //         'length[]' => '1',
+        //         'deliveryArea' => '76111',
+        //         'deliveryAddress' => 'Denpasar'
 
-        );
+        // );
 
-        $data = Http_build_query($array);
+        // $data = Http_build_query($array);
+
+        // $curl = curl_init();
+
+        // curl_setopt_array($curl, array(
+        // CURLOPT_URL => 'https://sandbox.ipaymu.com/api/v2/payment/direct',
+        // CURLOPT_RETURNTRANSFER => true,
+        // CURLOPT_ENCODING => '',
+        // CURLOPT_MAXREDIRS => 10,
+        // CURLOPT_TIMEOUT => 0,
+        // CURLOPT_FOLLOWLOCATION => true,
+        // CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        // CURLOPT_CUSTOMREQUEST => 'POST',
+        // CURLOPT_POSTFIELDS => $data,
+        // CURLOPT_HTTPHEADER => array(
+        //     'Content-Type: application/json',
+        //     'signature: [object Object]',
+        //     'va: 0000001294658309',
+        //     'timestamp: 20191209155701'
+        // ),
+        // ));
+
+        // $response = curl_exec($curl);
+
+        // curl_close($curl);
+        // echo $response;
+
+        
 
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-        CURLOPT_URL => 'https://sandbox.ipaymu.com/api/v2/payment/direct',
+        CURLOPT_URL => 'https://sandbox.ipaymu.com/api/v2/payment',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -55,11 +82,11 @@ class IpaymuController extends Controller
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => 'POST',
-        CURLOPT_POSTFIELDS => $data,
+        CURLOPT_POSTFIELDS => array('product[]' => 'Baju','qty[]' => '1','price[]' => '10000','description[]' => 'Baju1','returnUrl' => 'https://ipaymu.com/return','notifyUrl' => 'https://ipaymu.com/notify','cancelUrl' => 'https://ipaymu.com/cancel','referenceId' => 'ID1234','weight[]' => '1','dimension[]' => '1:1:1','buyerName' => 'putu','buyerEmail' => 'putu@mail.com','buyerPhone' => '08123456789','pickupArea' => '80117','pickupAddress' => 'Jakarta'),
         CURLOPT_HTTPHEADER => array(
             'Content-Type: application/json',
             'signature: [object Object]',
-            'va: 0000001294658309',
+            'va: 1179000899',
             'timestamp: 20191209155701'
         ),
         ));
