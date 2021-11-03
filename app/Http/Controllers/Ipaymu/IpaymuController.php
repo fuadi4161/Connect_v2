@@ -79,7 +79,7 @@ class IpaymuController extends Controller
                 $url        =  $ret->Data->Url;
                 header('Location:' . $url);
             } else {
-                echo $ret;
+                $pesan = 'Eroor';
             }
             //End Response
         }
