@@ -72,13 +72,13 @@ class IpaymuController extends Controller
         } else {
 
             //Response
-            $ret = json_decode($ret);
+            $rets = json_decode($ret);
             if($ret->Status == 200) {
                 $sessionId  = $ret->Data->SessionID;
                 $url        =  $ret->Data->Url;
                 header('Location:' . $url);
             } else {
-                echo $ret;
+                echo $rets;
             }
             //End Response
         }
