@@ -20,8 +20,8 @@ class IpaymuController extends Controller
 
          // SAMPLE HIT API iPaymu v2 PHP //
 
-        $va           = 'yout_va'; //get on iPaymu dashboard
-        $secret       = 'yout_api_key'; //get on iPaymu dashboard
+        $va           = '0000001294658309'; //get on iPaymu dashboard
+        $secret       = 'SANDBOX93D35640-3D9B-4D79-BDC8-0DBDCCEA7625-20211103065253'; //get on iPaymu dashboard
 
         $url          = 'https://my.ipaymu.com/api/v2/payment'; //url
         $method       = 'POST'; //method
