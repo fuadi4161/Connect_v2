@@ -26,6 +26,21 @@ class ApiPaymentController extends Controller
         ]);
 
     }
+    // Utuk mnampilkan semua list payment di halaman home aplikasi berdasarkan user id
+    public function getAllPayments(){
+        $users = Auth::user()->id;
+        $data = DB::table('pembayaran')->where('user_id','=', $users)
+            ->leftjoin('users', 'users.id', '=', 'pembayaran.author_id')
+            ->select('users.name', 'pembayaran.*')->orderBy('id', 'DESC')
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $data,
+            'pesan' => 'Berhasil ambil data'
+        ]);
+
+    }
 
     // Untuk menampilkan setatus pada keterangan payment di home aplikasi
     public function statusPayment(){
