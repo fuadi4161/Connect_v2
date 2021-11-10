@@ -69,13 +69,13 @@ class ApiPaymentController extends Controller
                 'success' => true,
                 'data' => "Menunggu konfirmasi Admin",
                 'pesan' => "Menunggu konfirmasi"
-            ], 201);
+            ]);
         } elseif ($status == true) {
             return response()->json([
                 'success' => true,
                 'data' => "Iuran bulan $bulan Lunas",
                 'pesan' => "Iuran Lunas"
-            ], 202);
+            ]);
         }
 
     }
