@@ -61,13 +61,13 @@ class ApiPaymentController extends Controller
         if ($data == '[]') {
             return response()->json([
                 'success' => false,
-                'data' => "anda belum membayar Iuran",
+                'data' => "Iuran Bulan $bulan Belum Lunas",
                 'pesan' => "belum Iuran"
             ]);
         } elseif ($status == false) {
             return response()->json([
                 'success' => true,
-                'data' => "Menunggu konfirmasi",
+                'data' => "Menunggu konfirmasi Admin",
                 'pesan' => "Menunggu konfirmasi"
             ], 201);
         } elseif ($status == true) {

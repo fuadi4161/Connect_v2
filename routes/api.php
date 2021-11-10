@@ -34,8 +34,10 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     //payment
     Route::get('payment', 'ApiController\ApiPaymentController@getPayments');
-        // Utuk mnampilkan semua list payment di halaman home aplikasi berdasarkan user id
+        // Untuk menampilkan semua list payment di halaman home aplikasi berdasarkan user id
     Route::get('payment/all', 'ApiController\ApiPaymentController@getAllPayments');
+        // Untuk menampilkan Status payment Users
+    Route::get('payment/status', 'ApiController\ApiPaymentController@statusPayment()');
 
 
 
