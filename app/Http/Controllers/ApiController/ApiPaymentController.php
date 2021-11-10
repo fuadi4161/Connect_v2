@@ -32,7 +32,7 @@ class ApiPaymentController extends Controller
         $data = DB::table('pembayaran')->where('user_id','=', $users)
             ->leftjoin('users', 'users.id', '=', 'pembayaran.author_id')
             ->select('users.name', 'pembayaran.*')->orderBy('id', 'DESC')
-            ->limit(5);
+            ->limit(5)->get();
 
         return response()->json([
             'success' => true,
