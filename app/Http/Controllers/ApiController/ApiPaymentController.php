@@ -393,10 +393,7 @@ class ApiPaymentController extends Controller
             $datausers = $id;
         }
 
-        $cek = DB::table('pembayaran')->where([
-            ['user_id', '=',  $request->id ],
-            ['cek', '=', Carbon::now()->format('Y-m')],
-        ])
+        $cek = DB::table('pembayaran')->where([['user_id', '=',  $request->id ],['cek', '=', Carbon::now()->format('Y-m')]])
             ->select('pembayaran.cek')
             ->get();
 
@@ -411,7 +408,7 @@ class ApiPaymentController extends Controller
                 'nominal' => $items,
                 'bulan' => Carbon::now()->isoformat('MMMM'),
                 'tahun' => date('Y'),
-                'author_id' => Auth::user()->id;,
+                'author_id' => Auth::user()->id,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
                 'cek' => date('Y-m'),
