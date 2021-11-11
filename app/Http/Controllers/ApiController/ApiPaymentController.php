@@ -283,10 +283,10 @@ class ApiPaymentController extends Controller
     }
 
     //untuk add payment from users (users melakukan pembayaran atau request pembayaran)
-    public function addPayment(Request $request){
+    public function usersAddPayment(Request $request){
         $users = Auth::user()->id;
 
-        $cek = Pembayaran::where([
+        $cek = DB::table('pembayaran')->where([
             ['user_id', '=', $users],
             ['cek', '=', Carbon::now()->format('Y-m')],
         ])
@@ -298,12 +298,12 @@ class ApiPaymentController extends Controller
             $userName = Auth::user()->name;
             $userAvatar = Auth::user()->avatar;
 
-            $data = DB::table('users')->where([['users.id', '=', $userID]])
-                ->leftJoin('langganan', 'users.status_langganan', '=', 'langganan.id')
-                ->select('langganan.harga', 'langganan.kecepatan','users.*')
+            $nominal = DB::table('users')->where(['users.id', '=', $userID])
+                ->leftJoin('client', 'users.id', '=', 'client.id_user')
+                ->select('client.nominal')
                 ->get();
-            foreach ($data as $detail) {
-                $items = $detail->harga;
+            foreach ($nominal as $detail) {
+                $items = $detail;
             }
             DB::table('pembayaran')->insert([
                 'user_id' => $userID,
@@ -316,19 +316,6 @@ class ApiPaymentController extends Controller
                 'cek' => date('Y-m'),
                 'status' => false,
             ]);
-            DB::table('notifikasi')->insert([
-                'user_id' => $request->id,
-                'judul' => 'Request Iuran',
-                'deskripsi' => $userName.' meminta konfirmasi Iuran',
-                'status' => false,
-            ]);
-
-            DB::table('posision_users')->where('user_id', $users)
-                ->update([
-                    'status' => false,
-                    'updated_at' => date('Y-m-d H:i:s'),
-                ]);
-
                 // $token = DB::table('users')->where('id',  $request->id)->get();
                 // foreach ( $token as $detail) {
                 //     $FCM_token = $detail->notif_fcm;
@@ -392,6 +379,44 @@ class ApiPaymentController extends Controller
                 'success' => false,
                 'pesan' => 'Data sudah ada !'
             ],201);
+        }
+    }
+
+    public function adminAddPayment(Request $request){
+
+        $users = DB::table('users')->where('users.id', $request->id)
+        ->leftjoin('client', 'users.id', '=', 'client.id_user')
+        ->select('users.*', 'client.nominal')
+        ->get();
+
+        foreach($users as $id){
+            $datausers = $id;
+        }
+
+        $cek = DB::table('pembayaran')->where([
+            ['user_id', '=',  $request->id ],
+            ['cek', '=', Carbon::now()->format('Y-m')],
+        ])
+            ->select('pembayaran.cek')
+            ->get();
+
+        if ($cek->isEmpty()) {
+            $userID =  $datausers->id;
+            $bulan =   $request->bulan;
+            $status =  $request->status;
+            $items = $datausers->nominal;
+           
+            DB::table('pembayaran')->insert([
+                'user_id' => $userID,
+                'nominal' => $items,
+                'bulan' => Carbon::now()->isoformat('MMMM'),
+                'tahun' => date('Y'),
+                'author_id' => Auth::user()->id;,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'cek' => date('Y-m'),
+                'status' => $request->status,
+            ]);
         }
     }
 }

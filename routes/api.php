@@ -32,6 +32,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('bonus/add', 'ApiController\ApiBonusController@postBonus');
     Route::post('bonus/claim', 'ApiController\ApiBonusController@myBonus');
     Route::get('bonus/claim/{id}', 'ApiController\ApiBonusController@claimBonus');
+    Route::get('bonus/aprove', 'ApiController\ApiBonusController@aproveBonus');
+    Route::get('bonus/delete', 'ApiController\ApiBonusController@hapusBonus');
 
     //payment
     Route::get('payment', 'ApiController\ApiPaymentController@getPayments');
@@ -39,6 +41,10 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('payment/all', 'ApiController\ApiPaymentController@getAllPayments');
         // Untuk menampilkan Status payment Users
     Route::get('payment/status', 'ApiController\ApiPaymentController@statusPayment');
+        // Untuk menambah/menginput iuran dari users atau users meminta riquest iuran untuk di konfirmasi
+    Route::post('payment/useradd', 'ApiController\ApiPaymentController@usersAddPayment');
+        // Untuk menambahkan payment secara manual oleh admin
+    Route::post('payment/adminadd', 'ApiController\ApiPaymentController@adminAddPayment');
 
 
 
