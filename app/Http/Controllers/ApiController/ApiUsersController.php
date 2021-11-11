@@ -32,14 +32,10 @@ class ApiUsersController extends Controller
         ->select('users.*','client.internet','client.catv','client.nominal')
         ->get();
 
-        return response()->json([
-            'success' => true,
-            'data' => $data,
-            'pesan' => 'get data Berhasil'
-        ], 200);
+        return response()->json($data, 200);
     }
 
-    public function addUsers(){
+    public function addUsers(Request $request){
 
     }
     

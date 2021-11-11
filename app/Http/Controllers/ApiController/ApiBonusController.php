@@ -19,13 +19,7 @@ class ApiBonusController extends Controller
 
         $bonus = DB::table('bonus')->where('bulan',$bulan)->orderBy('id', 'DESC')->get();
 
-        return response()->json(
-            [
-                'success' => true,
-                'data' => $bonus,
-                'pesan' => 'berhasil ambil data',
-            ]
-        );
+        return response()->json($bonus,200);
 
     }
 
@@ -204,13 +198,7 @@ class ApiBonusController extends Controller
             $data['deskripsi'] = $deskripsi;
             $data['bulan'] = $bulan;
 
-            return response()->json(
-            [
-                'success' => true,
-                'data' => $data,
-                'pesan' => 'berhasil ambil data',
-            ]
-        );
+            return response()->json($data,200);
         }
     }
 }

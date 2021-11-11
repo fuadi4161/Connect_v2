@@ -19,7 +19,7 @@ class ApiPaymentController extends Controller
             ->select('users.name', 'pembayaran.*')->orderBy('id', 'DESC')
             ->get();
 
-        return response()->json($data, 201);
+        return response()->json($data, 200);
 
     }
     // Utuk mnampilkan semua list payment di halaman home aplikasi berdasarkan user id
