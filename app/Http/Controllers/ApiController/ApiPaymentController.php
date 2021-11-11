@@ -305,17 +305,19 @@ class ApiPaymentController extends Controller
             foreach ($nominal as $detail) {
                 $items = $detail;
             }
-            DB::table('pembayaran')->insert([
-                'user_id' => $userID,
-                'nominal' => $items,
-                'bulan' => Carbon::now()->isoformat('MMMM'),
-                'tahun' => date('Y'),
-                'author_id' => $request->id,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
-                'cek' => date('Y-m'),
-                'status' => false,
-            ]);
+
+            return response()->json($items);
+            // DB::table('pembayaran')->insert([
+            //     'user_id' => $userID,
+            //     'nominal' => $items,
+            //     'bulan' => Carbon::now()->isoformat('MMMM'),
+            //     'tahun' => date('Y'),
+            //     'author_id' => $request->id,
+            //     'created_at' => date('Y-m-d H:i:s'),
+            //     'updated_at' => date('Y-m-d H:i:s'),
+            //     'cek' => date('Y-m'),
+            //     'status' => false,
+            // ]);
                 // $token = DB::table('users')->where('id',  $request->id)->get();
                 // foreach ( $token as $detail) {
                 //     $FCM_token = $detail->notif_fcm;
