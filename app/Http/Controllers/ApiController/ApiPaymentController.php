@@ -20,9 +20,7 @@ class ApiPaymentController extends Controller
             ->get();
 
         return response()->json([
-            'success' => true,
-            'data' => $data,
-            'pesan' => 'Berhasil ambil data'
+             $data
         ]);
 
     }

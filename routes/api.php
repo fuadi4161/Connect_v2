@@ -30,6 +30,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     // Bonus Model
     Route::get('bonus', 'ApiController\ApiBonusController@getBonus');
     Route::post('bonus/add', 'ApiController\ApiBonusController@postBonus');
+    Route::post('bonus/claim', 'ApiController\ApiBonusController@myBonus');
     Route::get('bonus/claim/{id}', 'ApiController\ApiBonusController@claimBonus');
 
     //payment
