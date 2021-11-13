@@ -17,11 +17,9 @@ class ApiAdminController extends Controller
     {
 
 
-        $data = DB::table('model_has_roles')
+        $data = DB::table('model_has_roles')->where('model_has_roles.role_id', 2)
             ->leftJoin('users', 'model_has_roles.model_id', '=', 'users.id')
             ->select('users.id', 'users.name', 'users.avatar')
-            ->orderBy('id', 'DESC')
-            ->limit(2)->get();
             ->get();
 
             foreach($data as $data){
