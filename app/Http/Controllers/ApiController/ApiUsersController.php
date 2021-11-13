@@ -63,7 +63,9 @@ class ApiUsersController extends Controller
 
     // Menampikan data semua users
     public function getUsers(){
-        $data = DB::table('users')->leftJoin('client', 'users.id', '=', 'client.id_user')
+        $data = DB::table('users')
+        ->leftJoin('client', 'users.id', '=', 'client.id_user')
+        ->leftJoin('alamat', 'users.id', '=', 'alamat.user_id')
         ->select('users.*','client.internet','client.catv','client.nominal')
         ->get();
 
