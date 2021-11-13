@@ -31,7 +31,7 @@ class ApiAdminController extends Controller
                 'success' => false,
             ], 201);
         } else {
-            return response()->json($item);
+            return response()->json([$item]);
         }
     }
 }
