@@ -20,7 +20,11 @@ Route::post('login', 'ApiController\ApiLoginController@login');
 
 Route::group(['middleware' => ['auth:api']], function () {
 
+    // Konfirmasi users admin
     Route::post('admin', 'ApiController\ApiUsersController@aksesAdmin');
+    // Menampilkan List Users
+    Route::get('admin/list', 'ApiController\ApiAdminController@adminuser');
+
     
     // Url Users model 
         // Untuk menampilkan profile users yang login
