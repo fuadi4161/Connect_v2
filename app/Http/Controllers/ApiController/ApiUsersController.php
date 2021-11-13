@@ -66,7 +66,7 @@ class ApiUsersController extends Controller
         $data = DB::table('users')
         ->leftJoin('client', 'users.id', '=', 'client.id_user')
         ->leftJoin('alamat', 'users.id', '=', 'alamat.user_id')
-        ->select('users.*','client.internet','client.catv','client.nominal')
+        ->select('users.*','alamat.*','client.internet','client.catv','client.nominal')
         ->get();
 
         return response()->json($data, 200);
