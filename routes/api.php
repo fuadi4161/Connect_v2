@@ -19,32 +19,61 @@ Route::post('login', 'ApiController\ApiLoginController@login');
 
 
 Route::group(['middleware' => ['auth:api']], function () {
+
+    Route::post('admin', 'ApiController\ApiUsersController@aksesAdmin');
     
     // Url Users model 
-    Route::get('user/profile', 'ApiController\ApiUsersController@getProfilUser');
-    Route::get('users', 'ApiController\ApiUsersController@getUsers');
+        // Untuk menampilkan profile users yang login
+    Route::get('user/profile', 'ApiController\ApiUsersController@getProfilUser'); // Ok
+        // Untuk menampilkan semua data users
+    Route::get('users', 'ApiController\ApiUsersController@getUsers'); // Ok
+        // Untuk menambahkan users (admin)
     Route::post('users/add', 'ApiController\ApiUsersController@addUsers');
+        // Untuk mengedit data users (admin)
     Route::get('users/edit/{id}', 'ApiController\ApiUsersController@editUser');
+        // Untuk menghapus users (admin)
     Route::get('users/delete/{id}', 'ApiController\ApiUsersController@hapusUser');
+        // Untuk users mengupdate profile
+    Route::get('users/update', 'ApiController\ApiUsersController@updateUser');
+
+
+
+
 
     // Bonus Model
-    Route::get('bonus', 'ApiController\ApiBonusController@getBonus');
-    Route::post('bonus/add', 'ApiController\ApiBonusController@postBonus');
-    Route::post('bonus/claim', 'ApiController\ApiBonusController@myBonus');
-    Route::get('bonus/claim/{id}', 'ApiController\ApiBonusController@claimBonus');
-    Route::get('bonus/aprove', 'ApiController\ApiBonusController@aproveBonus');
-    Route::get('bonus/delete', 'ApiController\ApiBonusController@hapusBonus');
+        // Untuk menampilkan semua bonus pada bulan tersebut
+    Route::get('bonus', 'ApiController\ApiBonusController@getBonus'); // Ok
+        // Untuk menambahkan bonus (admin)
+    Route::post('bonus/add', 'ApiController\ApiBonusController@postBonus'); // Ok
+        // Untuk menampilkan bonus yang di claim user tersebut
+    Route::get('bonus/claim', 'ApiController\ApiBonusController@myBonus'); // Ok
+        // Untuk mengekalim bonus
+    Route::get('bonus/claim/{id}', 'ApiController\ApiBonusController@claimBonus'); // Ok
+        // Untuk mengapprove bonus yang di claim users (admin)
+    Route::get('bonus/aprove/{id}', 'ApiController\ApiBonusController@aproveBonus'); // Ok
+        // Untuk mendelete bonus yang sudah di input
+    Route::get('bonus/delete/{id}', 'ApiController\ApiBonusController@hapusBonus'); // Ok
+        // Untuk mengecek jumlah bonus
+    Route::get('bonus/count', 'ApiController\ApiBonusController@countBonus');
+
+
+
+
+
 
     //payment
-    Route::get('payment', 'ApiController\ApiPaymentController@getPayments');
+    Route::get('payment', 'ApiController\ApiPaymentController@getPayments'); // ok
         // Untuk menampilkan semua list payment di halaman home aplikasi berdasarkan user id
-    Route::get('payment/all', 'ApiController\ApiPaymentController@getAllPayments');
+    Route::get('payment/all', 'ApiController\ApiPaymentController@getAllPayments'); // ok
         // Untuk menampilkan Status payment Users
-    Route::get('payment/status', 'ApiController\ApiPaymentController@statusPayment');
+    Route::get('payment/status', 'ApiController\ApiPaymentController@statusPayment'); // ok
         // Untuk menambah/menginput iuran dari users atau users meminta riquest iuran untuk di konfirmasi
-    Route::post('payment/useradd', 'ApiController\ApiPaymentController@usersAddPayment');
+    Route::post('payment/useradd', 'ApiController\ApiPaymentController@usersAddPayment'); // ok
         // Untuk menambahkan payment secara manual oleh admin
-    Route::post('payment/adminadd', 'ApiController\ApiPaymentController@adminAddPayment');
+    Route::post('payment/adminadd', 'ApiController\ApiPaymentController@adminAddPayment'); // ok
+        // Untuk admin menginput otomatis payment sesuai data dari users
+    Route::post('payment/adminpost', 'ApiController\ApiPaymentController@adminPostPayment'); // ok
+
 
 
 

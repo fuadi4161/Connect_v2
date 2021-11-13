@@ -81,44 +81,37 @@ class ApiPaymentController extends Controller
 
     }
 
-    // Untuk input manual payment users
-    public function postPayment(Request $request){
+    // Untuk input otomatis payment users yang dilakukan oleh admin
+    public function adminPostPayment(Request $request){
 
-        $user = $request->user;
-        $posision = $request->posision;
-
-
+        $userid = $request->userid;
         
-            $cek = Pembayaran::where([
-                ['user_id', '=', $user],
+            $cek = DB::table('pembayaran')->where([
+                ['user_id', '=', $userid],
                 ['cek', '=', Carbon::now()->format('Y-m')],
             ])
                 ->select('pembayaran.cek')
                 ->get();
             // return response()->json($users);
 
-            if (!empty($user)) {
+            if (!empty($userid)) {
                 
                 if ($cek->isEmpty()) {
                     
-                     DB::table('posision_users')->where([['user_id','=', $user],['posision_id','=', $posision]])
-                    ->update([
-                        'status' => true,
-                        'updated_at' => date('Y-m-d H:i:s'),
-                    ]);
 
-                    $data = DB::table('users')->where([['users.id', '=', $user]])
-                        ->leftJoin('langganan', 'users.status_langganan', '=', 'langganan.id')
-                        ->select('langganan.harga', 'langganan.kecepatan')
-                        ->get();
-                    foreach ($data as $detail) {
-                        $items = $detail->harga;
+                    $users = DB::table('users')->where('users.id', $request->userid)
+                            ->leftjoin('client', 'users.id', '=', 'client.id_user')
+                            ->select('users.*', 'client.nominal')
+                            ->get();
+
+                    foreach($users as $id){
+                        $datausers = $id;
                     }
 
                     // membuat input pembayaran ketika users tergenerate lunas
                     DB::table('pembayaran')->insert([
-                        'user_id' => $user,
-                        'nominal' => $items,
+                        'user_id' => $userid,
+                        'nominal' => $datausers->nominal,
                         'bulan' => Carbon::now()->isoformat('MMMM'),
                         'tahun' => date('Y'),
                         'author_id' => Auth::user()->id,
@@ -128,15 +121,15 @@ class ApiPaymentController extends Controller
                         'status' => true,
                     ]);
 
-                     $date = Carbon::now()->format('d-MM-YYYY');
-
-                     DB::table('notifikasi')->insert([
-                            'user_id' => $user,
-                            'judul' => 'Terima kasih',
-                            'deskripsi' => 'Iuran anda Iuran sudah di terima admin.',
-                            'date' => $date,
-                            'status' => false,
+                    // mengubah isActive menjadi true agar tidak tersecan cutoff server jaringan.
+                    DB::table('client')->where('client.id_user' , $userid)
+                         ->update([
+                            'isActive' => 1,
+                            'updated_at' => date('Y-m-d H:i:s'),
+                            
                         ]);
+
+                     $date = Carbon::now()->format('d-MM-YYYY');
 
                     // $getToken = DB::table('users')->where('id', $user)->get();
 
@@ -197,22 +190,23 @@ class ApiPaymentController extends Controller
 
                     $date = Carbon::now()->format('d-MM-YYYY');
 
-                     DB::table('notifikasi')->insert([
-                            'user_id' => $user,
-                            'judul' => 'Terima kasih',
-                            'deskripsi' => 'Iuran anda Iuran sudah di terima admin.',
-                            'date' => $date,
-                            'status' => false,
+                     // DB::table('notifikasi')->insert([
+                     //        'user_id' => $userid,
+                     //        'judul' => 'Terima kasih',
+                     //        'deskripsi' => 'Iuran anda Iuran sudah di terima admin.',
+                     //        'date' => $date,
+                     //        'status' => false,
+                     //    ]);
+
+                    DB::table('client')->where('client.id_user' , $userid)
+                         ->update([
+                            'isActive' => 1,
+                            'updated_at' => date('Y-m-d H:i:s'),
+                            
                         ]);
 
-                    DB::table('posision_users')->where([['user_id','=', $user],['posision_id','=', $posision]])
-                    ->update([
-                        'status' => true,
-                        'updated_at' => date('Y-m-d H:i:s'),
-                    ]);
-
                     DB::table('pembayaran')->where([
-                        ['user_id', '=', $user],
+                        ['user_id', '=', $userid],
                         ['cek', '=', Carbon::now()->format('Y-m')],
                     ])    
                     ->update([
@@ -298,26 +292,25 @@ class ApiPaymentController extends Controller
             $userName = Auth::user()->name;
             $userAvatar = Auth::user()->avatar;
 
-            $nominal = DB::table('users')->where(['users.id', '=', $userID])
+            $nominal = DB::table('users')->where('users.id', $userID)
                 ->leftJoin('client', 'users.id', '=', 'client.id_user')
                 ->select('client.nominal')
                 ->get();
             foreach ($nominal as $detail) {
-                $items = $detail;
+                $items = $detail->nominal;
             }
 
-            return response()->json($items);
-            // DB::table('pembayaran')->insert([
-            //     'user_id' => $userID,
-            //     'nominal' => $items,
-            //     'bulan' => Carbon::now()->isoformat('MMMM'),
-            //     'tahun' => date('Y'),
-            //     'author_id' => $request->id,
-            //     'created_at' => date('Y-m-d H:i:s'),
-            //     'updated_at' => date('Y-m-d H:i:s'),
-            //     'cek' => date('Y-m'),
-            //     'status' => false,
-            // ]);
+            DB::table('pembayaran')->insert([
+                'user_id' => $userID,
+                'nominal' => $items,
+                'bulan' => Carbon::now()->isoformat('MMMM'),
+                'tahun' => date('Y'),
+                'author_id' => $request->id,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+                'cek' => date('Y-m'),
+                'status' => false,
+            ]);
                 // $token = DB::table('users')->where('id',  $request->id)->get();
                 // foreach ( $token as $detail) {
                 //     $FCM_token = $detail->notif_fcm;
@@ -386,7 +379,7 @@ class ApiPaymentController extends Controller
 
     public function adminAddPayment(Request $request){
 
-        $users = DB::table('users')->where('users.id', $request->id)
+        $users = DB::table('users')->where('users.id', $request->userid)
         ->leftjoin('client', 'users.id', '=', 'client.id_user')
         ->select('users.*', 'client.nominal')
         ->get();
@@ -395,7 +388,9 @@ class ApiPaymentController extends Controller
             $datausers = $id;
         }
 
-        $cek = DB::table('pembayaran')->where([['user_id', '=',  $request->id ],['cek', '=', Carbon::now()->format('Y-m')]])
+        
+
+        $cek = DB::table('pembayaran')->where([['user_id', '=',  $request->userid ],['cek', '=', Carbon::now()->format('Y-m')]])
             ->select('pembayaran.cek')
             ->get();
 
@@ -408,14 +403,28 @@ class ApiPaymentController extends Controller
             DB::table('pembayaran')->insert([
                 'user_id' => $userID,
                 'nominal' => $items,
-                'bulan' => Carbon::now()->isoformat('MMMM'),
+                'bulan' => $bulan,
                 'tahun' => date('Y'),
                 'author_id' => Auth::user()->id,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
                 'cek' => date('Y-m'),
-                'status' => $request->status,
+                'status' => $status,
             ]);
+
+             
+
+
+            return response()->json([
+                'success' => true,
+                'pesan' => 'Berhasil post data'
+            ],200);
+
+        }else {
+            return response()->json([
+                'success' => false,
+                'pesan' => 'Data sudah ada !'
+            ],201);
         }
     }
 }

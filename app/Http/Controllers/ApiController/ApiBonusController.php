@@ -16,8 +16,21 @@ class ApiBonusController extends Controller
     public function getBonus(){
 
         $bulan = Carbon::now()->isoFormat('MMMM');
+        $tahun = date('Y');
 
-        $bonus = DB::table('bonus')->where('bulan',$bulan)->orderBy('id', 'DESC')->get();
+        $bonus = DB::table('bonus')->where([['bulan', $bulan],['tahun', $tahun]])->orderBy('id', 'DESC')->get();
+
+        return response()->json($bonus,200);
+
+    }
+
+     // Untuk menampilkan jumlah data bonus
+    public function countBonus(){
+
+        $bulan = Carbon::now()->isoFormat('MMMM');
+        $tahun = date('Y');
+
+        $bonus = DB::table('bonus')->where([['bulan', $bulan],['tahun', $tahun]])->count();
 
         return response()->json($bonus,200);
 
@@ -29,9 +42,10 @@ class ApiBonusController extends Controller
         
         DB::table('bonus')
             ->insert([
-                'title' => $request->speed,
+                'title' => 'Bonus kecepatan '. $request->speed.' Mbps',
                 'deskripsi' => 'ambil bonus untuk menambah kecepatan internet anda. "berlaku sampai akhir bulan '. $bulan. '"',
                 'bulan' => $bulan,
+                'tahun' => date('Y'),
                 'created_at' => date('Y-m-d H:i:s'),
             ]);
 
@@ -48,17 +62,28 @@ class ApiBonusController extends Controller
 
         $user = Auth::user()->id;
         $date = date('Y-m');
+        $tahun = date('Y');
 
-        $check = DB::table('bonus')->where([['bulan', $bulan],['user_id', $user]])->get();
+        $check = DB::table('bonus')->where([['bulan', $bulan],['tahun', $tahun],['user_id', $user]])->get();
 
-        $users = DB::table('pembayaran')->where([['cek', $date],['user_id', $user]])->get();
+        $payS = DB::table('pembayaran')->where([['cek', $date],['user_id', $user]])->get();
 
 
-        foreach ($users as $key) {
+        foreach ($payS as $key) {
             $status = $key->status;
         }
+         // return response()->json($check);
 
         if ( $check->isEmpty()) {
+
+            if($payS == []){
+                return response()->json(
+                    [
+                        'success' => true,
+                        'pesan' => 'Anda belum melakukan iuran',
+                    ],202
+                );
+            }
 
             if ($status == false) {
                 return response()->json(
@@ -166,64 +191,11 @@ class ApiBonusController extends Controller
     // Untuk aprove Bonus sekaligus Notifikasi
     public function aproveBonus($id){
 
-
-        // $notifID = DB::table('users')->get();
-
-                // $SERVER_API_KEY = 'AAAAXwc3hQ0:APA91bGWHOSNXP2oxdwLGq7e6tLx9H7IY4cFkPBuZzIRaqTMzZo5EDdyUlC6_TCgrtwasgfQUmArnLOJe-wqoAY0yn02Dpu_sjPORMT7KLFcRxF0FtQRiCHo87afnXOTwWixOb2OFezM';
-
-                // foreach ($notifID as $key) {
-                //     if (!empty($key)) {
-                //         $fcm_key = $key->notif_fcm;
-
-                //                 $token_1 = $fcm_key;
-
-                //                 $data = [
-
-                //                     "registration_ids" => [
-                //                         $token_1
-                //                     ],
-
-                //                     "notification" => [
-
-                //                         "title" => 'Bonus Sudah approved!!!' ,
-
-                //                         "body" => 'Kecapatan wifi anda sudah bertambah sesuai bonus yang di claim',
-
-                //                         "sound"=> "default" // required for sound on ios
-
-                //                     ],
-
-                //                 ];
-
-                //                 $dataString = json_encode($data);
-
-                //                 $headers = [
-
-                //                     'Authorization: key=' . $SERVER_API_KEY,
-
-                //                     'Content-Type: application/json',
-
-                //                 ];
-
-                //                 $ch = curl_init();
-
-                //                 curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
-
-                //                 curl_setopt($ch, CURLOPT_POST, true);
-
-                //                 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-                //                 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-
-                //                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-                //                 curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
-
-                //                 $response = curl_exec($ch);
-
-                //                 // dd($response);
-                //         }
-                // }
+         DB::table('bonus')->where('id', $id)->update([
+                'aprove' => true,
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+       
     }
 
     public function myBonus(){
