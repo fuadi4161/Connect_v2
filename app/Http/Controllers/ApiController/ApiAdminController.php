@@ -15,6 +15,8 @@ class ApiAdminController extends Controller
 
     public function adminuser()
     {
+
+        
         $data = DB::table('model_has_roles')->where([['model_has_roles.role_id', '=', 7]])
             ->leftJoin('users', 'model_has_roles.model_id', '=', 'users.id')
             ->select('users.id', 'users.name', 'users.profile_photo')
