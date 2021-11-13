@@ -29,7 +29,7 @@ class ApiAdminController extends Controller
                 'success' => false,
             ], 201);
         } else {
-            return response()->json([$data]);
+            return response()->json($data);
         }
     }
 }
