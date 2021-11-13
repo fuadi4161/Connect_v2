@@ -22,16 +22,14 @@ class ApiAdminController extends Controller
             ->select('users.id', 'users.name', 'users.avatar')
             ->get();
 
-            foreach($data as $data){
-                $item = $data->name;
-            }
+            
 
         if ($data == '[]') {
             return response()->json([
                 'success' => false,
             ], 201);
         } else {
-            return response()->json([$item]);
+            return response()->json([$data]);
         }
     }
 }
