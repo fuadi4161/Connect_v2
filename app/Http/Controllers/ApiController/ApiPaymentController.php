@@ -14,7 +14,7 @@ class ApiPaymentController extends Controller
     // Untuk menampikan semua List payments sesuai users id
     public function getPayments(){
         $users = Auth::user()->id;
-        $data = DB::table('pembayaran')->where([['user_id','=', $users],['status','=', true]])
+        $data = DB::table('pembayaran')->where([['user_id','=', $users]])
             ->leftjoin('users', 'users.id', '=', 'pembayaran.author_id')
             ->select('users.name', 'pembayaran.*')->orderBy('id', 'DESC')
             ->get();
