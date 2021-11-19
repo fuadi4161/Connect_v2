@@ -71,6 +71,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('payment/all', 'ApiController\ApiPaymentController@getAllPayments'); // ok
         // Untuk menampilkan Status payment Users
     Route::get('payment/status', 'ApiController\ApiPaymentController@statusPayment'); // ok
+     Route::get('payment/status/detail', 'ApiController\ApiPaymentController@paymentDetail'); // ok
         // Untuk menambah/menginput iuran dari users atau users meminta riquest iuran untuk di konfirmasi
     Route::post('payment/useradd', 'ApiController\ApiPaymentController@usersAddPayment'); // ok
         // Untuk menambahkan payment secara manual oleh admin
