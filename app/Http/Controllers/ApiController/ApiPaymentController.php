@@ -440,7 +440,11 @@ class ApiPaymentController extends Controller
             ['cek', '=', $today]
         ])->get();
 
-        return response()->json($data);
+        foreach($data as $data){
+            $value = $data;
+        }
+
+        return response()->json($value);
 
         
     }
