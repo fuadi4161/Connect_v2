@@ -64,7 +64,7 @@ class ApiPaymentController extends Controller
             return response()->json([
                 'success' => true,
                 'data' => "Menunggu Konfirmasi Admin",
-                'pesan' => "Menunggu Konfirmasi Admin"
+                'pesan' => "Menunggu konfirmasi"
             ]);
         } elseif ($status == true) {
             return response()->json([
