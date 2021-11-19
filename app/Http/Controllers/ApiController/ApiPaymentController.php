@@ -28,7 +28,7 @@ class ApiPaymentController extends Controller
         $data = DB::table('pembayaran')->where('user_id','=', $users)
             ->leftjoin('users', 'users.id', '=', 'pembayaran.author_id')
             ->select('users.name', 'pembayaran.*')->orderBy('id', 'DESC')
-            ->limit(5)->get();
+            ->limit(3)->get();
 
         return response()->json([
             'success' => true,
@@ -63,8 +63,8 @@ class ApiPaymentController extends Controller
         } elseif ($status == false) {
             return response()->json([
                 'success' => true,
-                'data' => "Menunggu konfirmasi Admin",
-                'pesan' => "Menunggu konfirmasi"
+                'data' => "Menunggu Konfirmasi Admin",
+                'pesan' => "Menunggu Konfirmasi Admin"
             ]);
         } elseif ($status == true) {
             return response()->json([
@@ -377,6 +377,8 @@ class ApiPaymentController extends Controller
         }
     }
 
+    // Untuk admin menambahkan data secara manual
+
     public function adminAddPayment(Request $request){
 
         $users = DB::table('users')->where('users.id', $request->userid)
@@ -426,5 +428,20 @@ class ApiPaymentController extends Controller
                 'pesan' => 'Data sudah ada !'
             ],201);
         }
+    }
+
+    // Menampilkan detail iuran/payment pada card iuran
+    public function paymentDetail(){
+        $today = Carbon::now()->isoFormat('Y-MM');
+        $bulan = Carbon::now()->isoFormat('MMMM');
+
+        $data = DB::table('pembayaran')->where([
+            ['user_id', '=', Auth::user()->id],
+            ['cek', '=', $today]
+        ])->get();
+
+        return response()->json($data);
+
+        
     }
 }
