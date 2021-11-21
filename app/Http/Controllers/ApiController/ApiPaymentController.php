@@ -438,7 +438,10 @@ class ApiPaymentController extends Controller
         $data = DB::table('pembayaran')->where([
             ['user_id', '=', Auth::user()->id],
             ['cek', '=', $today]
-        ])->get();
+        ])
+        ->leftjoin('users', 'pembayaran.author_id','=','users.id')
+        ->select('users.name', 'pembayaran.*')
+        ->get();
 
         foreach($data as $data){
             $value = $data;
