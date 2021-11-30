@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class ApiAdminController extends Controller
 {
-    //data admin
+    //menampilkan data admin
 
     public function adminuser()
     {

@@ -80,6 +80,17 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('payment/adminpost', 'ApiController\ApiPaymentController@adminPostPayment'); // ok
 
 
+    //Notifikasi
+     Route::get('notifikasi', 'ApiController\ApiNotifController@getNotif'); // ok
+     Route::post('notifikasi/read', 'ApiController\ApiNotifController@readNotif'); // ok
+
+
+    //Aktivitas
+     Route::get('aktivitas', 'ApiController\ApiAktivitasController@getAktif'); // ok
+     Route::get('aktivitas/user', 'ApiController\ApiAktivitasController@getByUsers'); // ok
+
+
+
 
 
 });
