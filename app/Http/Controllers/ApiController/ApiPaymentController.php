@@ -443,9 +443,11 @@ class ApiPaymentController extends Controller
         ->select('users.name', 'pembayaran.*')
         ->get();
 
-        
+        foreach($data as $data){
+            $value = $data;
+        }
 
-        return response()->json(Auth::user()->id);
+        return response()->json($value);
 
         
     }
