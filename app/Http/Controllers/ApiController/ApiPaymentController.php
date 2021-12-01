@@ -447,7 +447,7 @@ class ApiPaymentController extends Controller
             $value = $data;
         }
 
-        return response()->json($value);
+        return response()->json($data);
 
         
     }
