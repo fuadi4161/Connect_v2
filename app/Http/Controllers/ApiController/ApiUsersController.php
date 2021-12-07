@@ -47,7 +47,8 @@ class ApiUsersController extends Controller
 
         $data = DB::table('users')->where('users.id', '=',  Auth::user()->id)
         ->leftJoin('client', 'users.id', '=', 'client.id_user')
-        ->select('users.*','client.internet','client.catv','client.nominal')
+        ->leftJoin('alamat', 'users.id', '=', 'alamat.user_id')
+        ->select('users.*','client.internet','client.catv','client.nominal','alamat.*')
         ->get();
         foreach ($data as $value) {
             $user = $value;

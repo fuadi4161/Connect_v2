@@ -451,4 +451,45 @@ class ApiPaymentController extends Controller
 
         
     }
+
+
+
+
+    //Admin Page
+
+    //Menampilkan riquest iuran
+    public function reqIuran(){
+
+        $data = DB:table('pembayaran')->where([['status', '=', false],['author_id', '=', Auth::user()->id]])
+        ->leftjoin('users', 'pembayaran.user_id','=','users.id')
+        ->select('pembayaran.*', 'users.name', 'users.avatar')
+        ->get();
+
+        return response()->json($data);
+
+    }
+
+    // Menampilkan jumlah Iuran yang di bawa admin berdasarkan id admin
+    public function laporanIuran()
+    {
+        $cekdate = Carbon::now()->format('Y-m');
+
+
+        $data = Pembayaran::where([['author_id', '=', Auth::user()->id], ['status','=', true],['cek', '=', $cekdate]])
+            ->leftjoin('users','users.id','=','pembayaran.user_id')
+            ->select('users.name', 'pembayaran.*','users.avatar')
+            ->get();
+
+        $total_iuran = DB::table('pembayaran')->where([
+            ['author_id', '=', Auth::user()->id],
+            ['cek', '=', $cekdate]
+        ])->sum('pembayaran.nominal');
+
+        return response()->json([
+            'success' => true,
+            'data' => $data,
+            'total_harga' => $total_iuran,
+            'pesan' => 'Berhasil ambil data'
+        ]);
+    }
 }

@@ -78,6 +78,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('payment/adminadd', 'ApiController\ApiPaymentController@adminAddPayment'); // ok
         // Untuk admin menginput otomatis payment sesuai data dari users
     Route::post('payment/adminpost', 'ApiController\ApiPaymentController@adminPostPayment'); // ok
+        // Untuk menampilkan pembayran yang meminta konfirmasi admin
+    Route::get('payment/req', 'ApiController\ApiAdminController@reqIuran'); // ok
 
 
     //Notifikasi
