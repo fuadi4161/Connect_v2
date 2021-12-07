@@ -460,7 +460,7 @@ class ApiPaymentController extends Controller
     //Menampilkan riquest iuran
     public function reqIuran(){
 
-        $data = DB:table('pembayaran')->where([['status', '=', false],['author_id', '=', Auth::user()->id]])
+        $data = DB::table('pembayaran')->where([['status', '=', false],['author_id', '=', Auth::user()->id]])
         ->leftjoin('users', 'pembayaran.user_id','=','users.id')
         ->select('pembayaran.*', 'users.name', 'users.avatar')
         ->get();
