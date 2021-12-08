@@ -17,7 +17,7 @@ class ApiProfileController extends Controller
                     'name' => $request->username,
                     'updated_at' => date('Y-m-d H:i:s'),
                 ]);
-        return response()->json('success' => true);
+        return response()->json(['success' => true]);
     }
     public function updateEmail(Request $request){
         DB::table('users')->where('id', Auth::user()->id)
@@ -25,7 +25,7 @@ class ApiProfileController extends Controller
                     'email' => $request->email,
                     'updated_at' => date('Y-m-d H:i:s'),
                 ]);
-        return response()->json('success' => true);
+        return response()->json(['success' => true]);
     }
     public function updatePassword(Request $request){
         
@@ -36,7 +36,7 @@ class ApiProfileController extends Controller
                     'kecamatan' => $request->kecamatan,
                     'updated_at' => date('Y-m-d H:i:s'),
                 ]);
-        return response()->json('success' => true);
+        return response()->json(['success' => true]);
     }
     public function updateDesa(Request $request){
         DB::table('alamat')->where('user_id', Auth::user()->id)
@@ -44,7 +44,7 @@ class ApiProfileController extends Controller
                     'desa' => $request->desa,
                     'updated_at' => date('Y-m-d H:i:s'),
                 ]);
-        return response()->json('success' => true);
+        return response()->json(['success' => true]);
     }
     public function updateDusun(Request $request){
         DB::table('alamat')->where('user_id', Auth::user()->id)
@@ -52,7 +52,7 @@ class ApiProfileController extends Controller
                     'dusun' => $request->dusun,
                     'updated_at' => date('Y-m-d H:i:s'),
                 ]);
-        return response()->json('success' => true);
+        return response()->json(['success' => true]);
     }
     public function updateRtRw(Request $request){
         DB::table('alamat')->where('user_id', Auth::user()->id)
@@ -61,7 +61,7 @@ class ApiProfileController extends Controller
                     'rw' => $request->rw,
                     'updated_at' => date('Y-m-d H:i:s'),
                 ]);
-        return response()->json('success' => true);
+        return response()->json(['success' => true]);
     }
 
 }
