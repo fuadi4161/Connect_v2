@@ -37,8 +37,17 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('users/edit/{id}', 'ApiController\ApiUsersController@editUser');
         // Untuk menghapus users (admin)
     Route::get('users/delete/{id}', 'ApiController\ApiUsersController@hapusUser');
-        // Untuk users mengupdate profile
-    Route::get('users/update', 'ApiController\ApiUsersController@updateUser');
+       
+
+        // Url update profile
+    Route::post('profile/username','ApiController\ApiProfileController@updateUsername');
+    Route::post('profile/email','ApiController\ApiProfileController@updateEmail');
+    Route::post('profile/password','ApiController\ApiProfileController@updatePassword');
+        //Url update alamat
+    Route::post('profile/kecamatan','ApiController\ApiProfileController@updateKecamatan');
+    Route::post('profile/desa','ApiController\ApiProfileController@updateDesa');
+    Route::post('profile/dusun','ApiController\ApiProfileController@updateDusun');
+    Route::post('profile/rtrw','ApiController\ApiProfileController@updateRtRw');
 
 
 
