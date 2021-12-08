@@ -14,7 +14,7 @@ class ApiProfileController extends Controller
         $data =  $request->username;
 
         DB::table('users')->where('id', Auth::user()->id)
-                ->update([,
+                ->update([
                     'name' => $request->username,
                     'updated_at' => date('Y-m-d H:i:s'),
                 ]);
@@ -25,7 +25,7 @@ class ApiProfileController extends Controller
         $data =  $request->email;
 
         DB::table('users')->where('id', Auth::user()->id)
-                ->update([,
+                ->update([
                     'email' => $request->email,
                     'updated_at' => date('Y-m-d H:i:s'),
                 ]);
@@ -38,7 +38,7 @@ class ApiProfileController extends Controller
         $data =  $request->kecamatan;
 
         DB::table('alamat')->where('user_id', Auth::user()->id)
-                ->update([,
+                ->update([
                     'kecamatan' => $request->kecamatan,
                     'updated_at' => date('Y-m-d H:i:s'),
                 ]);
@@ -48,7 +48,7 @@ class ApiProfileController extends Controller
         $data =  $request->desa;
 
         DB::table('alamat')->where('user_id', Auth::user()->id)
-                ->update([,
+                ->update([
                     'desa' => $request->desa,
                     'updated_at' => date('Y-m-d H:i:s'),
                 ]);
@@ -58,7 +58,7 @@ class ApiProfileController extends Controller
         $data =  $request->dusun;
 
         DB::table('alamat')->where('user_id', Auth::user()->id)
-                ->update([,
+                ->update([
                     'dusun' => $request->dusun,
                     'updated_at' => date('Y-m-d H:i:s'),
                 ]);
@@ -66,9 +66,9 @@ class ApiProfileController extends Controller
     }
     public function updateRtRw(Request $request){
         $data =  $request->rt;
-        
+
         DB::table('alamat')->where('user_id', Auth::user()->id)
-                ->update([,
+                ->update([
                     'rt' => $request->rt,
                     'rw' => $request->rw,
                     'updated_at' => date('Y-m-d H:i:s'),
