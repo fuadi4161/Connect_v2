@@ -22,7 +22,7 @@ class ApiNotifController extends Controller
         DB::table('notifikasi')
               ->where('id', $request->id)
               ->update(
-                ['status' => 1],
+                ['status' => true],
                 ['updated_at' => date('d-m-Y H:i:s')]
           );
 
