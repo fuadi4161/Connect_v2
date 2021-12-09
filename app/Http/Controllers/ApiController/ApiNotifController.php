@@ -22,7 +22,7 @@ class ApiNotifController extends Controller
         DB::table('notifikasi')
               ->where('id', $request->id)
               ->update(
-                ['status' => true],
+                ['status' => 1],
                 ['updated_at' => date('d-m-Y H:i:s')]
           );
 
@@ -32,7 +32,7 @@ class ApiNotifController extends Controller
     public function deleteNotif(Request $request){
 
         DB::table('users')->where('id', $request->id)->delete();
-        
+
         return response()->json(['pesan' => 'berhasil read notif']);
     }
     
