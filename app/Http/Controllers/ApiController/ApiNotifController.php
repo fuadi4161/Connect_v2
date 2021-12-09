@@ -28,5 +28,12 @@ class ApiNotifController extends Controller
 
         return response()->json(['pesan' => 'berhasil read notif']);
     }
+
+    public function deleteNotif(Request $request){
+
+        DB::table('users')->where('id', $request->id)->delete();
+        
+        return response()->json(['pesan' => 'berhasil read notif']);
+    }
     
 }

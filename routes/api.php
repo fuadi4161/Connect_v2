@@ -94,6 +94,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     //Notifikasi
      Route::get('notifikasi', 'ApiController\ApiNotifController@getNotif'); // ok
      Route::post('notifikasi/read', 'ApiController\ApiNotifController@readNotif'); // ok
+     Route::post('notifikasi/delete', 'ApiController\ApiNotifController@deleteNotif'); // ok
 
 
     //Aktivitas
