@@ -115,8 +115,8 @@ class ApiPaymentController extends Controller
                         'bulan' => Carbon::now()->isoformat('MMMM'),
                         'tahun' => date('Y'),
                         'author_id' => Auth::user()->id,
-                        'created_at' => date('Y-m-d H:i:s'),
-                        'updated_at' => date('Y-m-d H:i:s'),
+                        'created_at' => date('d-m-Y H:i:s'),
+                        'updated_at' => date('d-m-Y H:i:s'),
                         'cek' => date('Y-m'),
                         'status' => true,
                     ]);
@@ -125,7 +125,7 @@ class ApiPaymentController extends Controller
                     DB::table('client')->where('client.id_user' , $userid)
                          ->update([
                             'isActive' => 1,
-                            'updated_at' => date('Y-m-d H:i:s'),
+                            'updated_at' => date('d-m-Y H:i:s'),
                             
                         ]);
 
@@ -201,7 +201,7 @@ class ApiPaymentController extends Controller
                     DB::table('client')->where('client.id_user' , $userid)
                          ->update([
                             'isActive' => 1,
-                            'updated_at' => date('Y-m-d H:i:s'),
+                            'updated_at' => date('d-m-Y H:i:s'),
                             
                         ]);
 
@@ -211,7 +211,7 @@ class ApiPaymentController extends Controller
                     ])    
                     ->update([
                         'status' => true,
-                        'updated_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('d-m-Y H:i:s'),
                     ]);
 
                     // $getToken = DB::table('users')->where('id', $user)->get();
@@ -306,8 +306,8 @@ class ApiPaymentController extends Controller
                 'bulan' => Carbon::now()->isoformat('MMMM'),
                 'tahun' => date('Y'),
                 'author_id' => $request->id,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'created_at' => date('d-m-Y H:i:s'),
+                'updated_at' => date('d-m-Y H:i:s'),
                 'cek' => date('Y-m'),
                 'status' => false,
             ]);
@@ -408,8 +408,8 @@ class ApiPaymentController extends Controller
                 'bulan' => $bulan,
                 'tahun' => date('Y'),
                 'author_id' => Auth::user()->id,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'created_at' => date('d-m-Y H:i:s'),
+                'updated_at' => date('d-m-Y H:i:s'),
                 'cek' => date('Y-m'),
                 'status' => $status,
             ]);
@@ -467,6 +467,18 @@ class ApiPaymentController extends Controller
 
         return response()->json($data);
 
+    }
+
+    //mengkonfirmasi request iuran dari users
+    public function adminAccPayment(Request $request){
+        DB::table('pembayaran')
+              ->where('id', $request->id)
+              ->update(
+                ['status' => true],
+                ['updated_at' => date('d-m-Y H:i:s')]
+          );
+
+        return response()->json(['pesan' => 'berhasil acc iuran']);
     }
 
     // Menampilkan jumlah Iuran yang di bawa admin berdasarkan id admin
