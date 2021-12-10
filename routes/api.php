@@ -80,15 +80,18 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('payment/all', 'ApiController\ApiPaymentController@getAllPayments'); // ok
         // Untuk menampilkan Status payment Users
     Route::get('payment/status', 'ApiController\ApiPaymentController@statusPayment'); // ok
-     Route::get('payment/status/detail', 'ApiController\ApiPaymentController@paymentDetail'); // ok
-        // Untuk menambah/menginput iuran dari users atau users meminta riquest iuran untuk di konfirmasi
+        // Menampilkan detail iuran/payment pada card iuran
+    Route::get('payment/status/detail', 'ApiController\ApiPaymentController@paymentDetail'); // ok
+        // Untuk menambah/menginput iuran dari users atau saat users meminta riquest iuran untuk di konfirmasi
     Route::post('payment/useradd', 'ApiController\ApiPaymentController@usersAddPayment'); // ok
         // Untuk menambahkan payment secara manual oleh admin
     Route::post('payment/adminadd', 'ApiController\ApiPaymentController@adminAddPayment'); // ok
         // Untuk admin menginput otomatis payment sesuai data dari users
     Route::post('payment/adminpost', 'ApiController\ApiPaymentController@adminPostPayment'); // ok
+        // Untuk admin mengkonfirmasi iuran yang di kirim oleh users
+    Route::post('payment/acc', 'ApiController\ApiPaymentController@adminAccPayment'); // ok
         // Untuk menampilkan pembayran yang meminta konfirmasi admin
-    Route::get('payment/req', 'ApiController\ApiAdminController@reqIuran'); // ok
+    Route::get('payment/req', 'ApiController\ApiPaymentController@reqIuran'); // ok
 
 
     //Notifikasi

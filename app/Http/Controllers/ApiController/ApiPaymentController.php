@@ -77,11 +77,11 @@ class ApiPaymentController extends Controller
     }
 
     // Untuk fungsi edit payment dari panding ke lunas
-    public function editPayment($id){
+    // public function editPayment($id){
 
-    }
+    // }
 
-    // Untuk input otomatis payment users yang dilakukan oleh admin
+    // Untuk input otomatis payment users yang dilakukan oleh admin dari panding ke lunas
     public function adminPostPayment(Request $request){
 
         $userid = $request->userid;
@@ -190,13 +190,13 @@ class ApiPaymentController extends Controller
 
                     $date = Carbon::now()->format('d-MM-YYYY');
 
-                     // DB::table('notifikasi')->insert([
-                     //        'user_id' => $userid,
-                     //        'judul' => 'Terima kasih',
-                     //        'deskripsi' => 'Iuran anda Iuran sudah di terima admin.',
-                     //        'date' => $date,
-                     //        'status' => false,
-                     //    ]);
+                     DB::table('notifikasi')->insert([
+                            'user_id' => $userid,
+                            'judul' => 'Terima kasih',
+                            'deskripsi' => 'Iuran anda sudah di terima admin.',
+                            'date' => $date,
+                            'status' => false,
+                        ]);
 
                     DB::table('client')->where('client.id_user' , $userid)
                          ->update([
