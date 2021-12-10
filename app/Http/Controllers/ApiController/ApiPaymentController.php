@@ -129,6 +129,23 @@ class ApiPaymentController extends Controller
                             
                         ]);
 
+                    DB::table('notifikasi')->insert([
+                            'user_id' => $userid,
+                            'judul' => 'Iuran',
+                            'deskripsi' => 'Terima kasih.. Iuran anda sudah di terima admin.',
+                            'created_at' => date('d-m-Y H:i:s'),
+                            'updated_at' => date('d-m-Y H:i:s'),
+                            'status' => false,
+                        ]);
+
+                    DB::table('aktivitas')->insert([
+                        'user_id' => Auth::user()->id,
+                        'judul' => 'Konfirmasi Iuran',
+                        'deskripsi' => Auth::user()->name +' Telah mengkonfirmasi iuran'+ $datausers->name,
+                        'created_at' => date('d-m-Y H:i:s'),
+                        'updated_at' => date('d-m-Y H:i:s'),
+                    ]);
+
                      $date = Carbon::now()->format('d-MM-YYYY');
 
                     // $getToken = DB::table('users')->where('id', $user)->get();
@@ -203,7 +220,7 @@ class ApiPaymentController extends Controller
                     DB::table('aktivitas')->insert([
                         'user_id' => Auth::user()->id,
                         'judul' => 'Konfirmasi Iuran',
-                        'deskripsi' => Auth::user()->name +' Telah mengkonfirmasi iuran'+ $datausers->name,
+                        'deskripsi' => Auth::user()->name +' Telah mengkonfirmasi iuran '+ $datausers->name,
                         'created_at' => date('d-m-Y H:i:s'),
                         'updated_at' => date('d-m-Y H:i:s'),
                     ]);
