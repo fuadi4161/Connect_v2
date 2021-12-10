@@ -190,13 +190,16 @@ class ApiPaymentController extends Controller
 
                     $date = Carbon::now()->format('d-MM-YYYY');
 
-                     DB::table('notifikasi')->insert([
+
+                    DB::table('notifikasi')->insert([
                             'user_id' => $userid,
-                            'judul' => 'Terima kasih',
-                            'deskripsi' => 'Iuran anda sudah di terima admin.',
-                            'date' => $date,
+                            'judul' => 'Iuran',
+                            'deskripsi' => 'Terima kasih.. Iuran anda sudah di terima admin.',
+                            'created_at' => date('d-m-Y H:i:s'),
+                            'updated_at' => date('d-m-Y H:i:s'),
                             'status' => false,
                         ]);
+
 
                     DB::table('client')->where('client.id_user' , $userid)
                          ->update([
@@ -311,6 +314,17 @@ class ApiPaymentController extends Controller
                 'cek' => date('Y-m'),
                 'status' => false,
             ]);
+
+             DB::table('notifikasi')->insert([
+                'user_id' => $userID,
+                'judul' => 'Iuran',
+                'deskripsi' => 'Permintaan konfirmasi iuran anda berhasil di kirim ke admin',
+                'created_at' => date('d-m-Y H:i:s'),
+                'updated_at' => date('d-m-Y H:i:s'),
+                'status' => false,
+            ]);
+
+
                 // $token = DB::table('users')->where('id',  $request->id)->get();
                 // foreach ( $token as $detail) {
                 //     $FCM_token = $detail->notif_fcm;
