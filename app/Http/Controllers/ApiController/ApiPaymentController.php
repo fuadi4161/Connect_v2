@@ -200,6 +200,14 @@ class ApiPaymentController extends Controller
                             'status' => false,
                         ]);
 
+                    DB::table('aktivitas')->insert([
+                        'user_id' => Auth::user()->id,
+                        'judul' => 'Konfirmasi Iuran',
+                        'deskripsi' => Auth::user()->name +' Telah mengkonfirmasi iuran'+ $datausers->name,
+                        'created_at' => date('d-m-Y H:i:s'),
+                        'updated_at' => date('d-m-Y H:i:s'),
+                    ]);
+
 
                     DB::table('client')->where('client.id_user' , $userid)
                          ->update([
@@ -322,6 +330,14 @@ class ApiPaymentController extends Controller
                 'created_at' => date('d-m-Y H:i:s'),
                 'updated_at' => date('d-m-Y H:i:s'),
                 'status' => false,
+            ]);
+
+              DB::table('aktivitas')->insert([
+                'user_id' => $userID,
+                'judul' => 'Iuran Request',
+                'deskripsi' => 'Mengirim permintaan konfirmasi ke admin',
+                'created_at' => date('d-m-Y H:i:s'),
+                'updated_at' => date('d-m-Y H:i:s'),
             ]);
 
 
