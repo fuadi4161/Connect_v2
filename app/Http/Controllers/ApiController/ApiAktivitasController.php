@@ -13,7 +13,10 @@ class ApiAktivitasController extends Controller
     // Menampilkan semua aktivitas users
     public function getAktif(){
 
-        $data = DB::table('aktivitas')->get();
+        $data = DB::table('aktivitas')
+        ->leftJoin('users', 'users.id','=','aktivitas.user_id')
+        ->select('users.name', 'aktivitas.*')
+        ->get();
 
         return response()->json($data);
 
@@ -25,3 +28,4 @@ class ApiAktivitasController extends Controller
          return response()->json($data);
     }
 }
+
