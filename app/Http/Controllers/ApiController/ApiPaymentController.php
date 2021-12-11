@@ -537,7 +537,7 @@ class ApiPaymentController extends Controller
         DB::table('aktivitas')->insert([
             'user_id' => Auth::user()->id,
             'judul' => 'Konfirmasi Iuran',
-            'deskripsi' => Auth::user()->name .' Telah mengkonfirmasi iuran'. $request->name,
+            'deskripsi' => 'Admin Telah mengkonfirmasi iuran '. $request->name,
             'created_at' => date('d-m-Y H:i:s'),
             'updated_at' => date('d-m-Y H:i:s'),
         ]);

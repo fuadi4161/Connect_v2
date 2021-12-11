@@ -31,8 +31,10 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('user/profile', 'ApiController\ApiUsersController@getProfilUser'); // Ok
         // Untuk menampilkan semua data users
     Route::get('users', 'ApiController\ApiUsersController@getUsers'); // Ok
-        // Untuk menambahkan users (admin)
-    Route::post('users/add', 'ApiController\ApiUsersController@addUsers');
+        // Untuk menambahkan users Client (admin)
+    Route::post('users/addClient', 'ApiController\ApiUsersController@addUsersClient');
+        // Untuk menambahkan users Admin (admin)
+    Route::post('users/addAdmin', 'ApiController\ApiUsersController@addUsersAdmin');
         // Untuk mengedit data users (admin)
     Route::get('users/edit/{id}', 'ApiController\ApiUsersController@editUser');
         // Untuk menghapus users (admin)
