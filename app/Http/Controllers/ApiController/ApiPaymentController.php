@@ -112,16 +112,19 @@ class ApiPaymentController extends Controller
                 if ($cek->isEmpty()) {
                     
 
-                    $users = DB::table('users')->where('users.id', $request->userid)
-                            ->leftjoin('client', 'users.id', '=', 'client.id_user')
-                            ->select('users.*', 'client.nominal')
+                    $nominal = DB::table('users')->where('users.id', $userid)
+                            ->leftJoin('client', 'users.id', '=', 'client.id_user')
+                            ->select('client.nominal','users.*')
                             ->get();
-
+                        foreach ($nominal as $detail) {
+                            $items = $detail->nominal;
+                            $name = $detail->name;
+                        }
 
                     // membuat input pembayaran ketika users tergenerate lunas
                     DB::table('pembayaran')->insert([
                         'user_id' => $userid,
-                        'nominal' => $users->nominal,
+                        'nominal' =>  $items,
                         'bulan' => Carbon::now()->isoformat('MMMM'),
                         'tahun' => date('Y'),
                         'author_id' => Auth::user()->id,
@@ -152,7 +155,7 @@ class ApiPaymentController extends Controller
                     DB::table('aktivitas')->insert([
                         'user_id' => Auth::user()->id,
                         'judul' => 'Konfirmasi Iuran',
-                        'deskripsi' => Auth::user()->name +' Telah mengkonfirmasi iuran'+ $users->name,
+                        'deskripsi' => 'Admin Telah mengkonfirmasi iuran'+ $name,
                         'created_at' => date('d-m-Y H:i:s'),
                         'updated_at' => date('d-m-Y H:i:s'),
                     ]);
@@ -240,7 +243,7 @@ class ApiPaymentController extends Controller
                     DB::table('aktivitas')->insert([
                         'user_id' => Auth::user()->id,
                         'judul' => 'Konfirmasi Iuran',
-                        'deskripsi' => 'Admin Telah mengkonfirmasi iuran '+ $users->name,
+                        'deskripsi' => 'Admin Telah mengkonfirmasi iuran '+ $name,
                         'created_at' => date('d-m-Y H:i:s'),
                         'updated_at' => date('d-m-Y H:i:s'),
                     ]);
