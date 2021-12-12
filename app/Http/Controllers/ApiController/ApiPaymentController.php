@@ -117,16 +117,11 @@ class ApiPaymentController extends Controller
                             ->select('users.*', 'client.nominal')
                             ->get();
 
-                            return response()->json($users);
-
-                    foreach($users as $id){
-                        $datausers = $id;
-                    }
 
                     // membuat input pembayaran ketika users tergenerate lunas
                     DB::table('pembayaran')->insert([
                         'user_id' => $userid,
-                        'nominal' => $datausers->nominal,
+                        'nominal' => $users->nominal,
                         'bulan' => Carbon::now()->isoformat('MMMM'),
                         'tahun' => date('Y'),
                         'author_id' => Auth::user()->id,
