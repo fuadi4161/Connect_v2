@@ -46,7 +46,7 @@ class ApiRegisterController extends Controller
         $client->id_user = $userwifi->id;
         $client->internet = 'guest';
         $client->catv = ' ';
-        $client->nominal = '000';
+        $client->nominal = '0';
         $client->isActive = false;
         $client->created_at = date('d-m-Y H:i:s');
 
