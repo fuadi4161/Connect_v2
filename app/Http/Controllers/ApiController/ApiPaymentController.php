@@ -218,6 +218,16 @@ class ApiPaymentController extends Controller
                     // curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
 
                 } else {
+                    
+                    $users = DB::table('users')->where('users.id', $request->userid)
+                            ->leftJoin('client', 'users.id', '=', 'client.id_user')
+                            ->select('users.*', 'client.nominal')
+                            ->get();
+
+
+                    foreach($users as $id){
+                        $datausers = $id;
+                    }
 
 
                     $date = Carbon::now()->format('d-MM-YYYY');
