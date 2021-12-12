@@ -117,6 +117,8 @@ class ApiPaymentController extends Controller
                             ->select('users.*', 'client.nominal')
                             ->get();
 
+                            return response()->json($users);
+
                     foreach($users as $id){
                         $datausers = $id;
                     }
