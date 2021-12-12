@@ -118,7 +118,7 @@ class ApiUsersController extends Controller
 
         // \Mail::to($email)->send(new \App\Mail\NewUserNotification($detail));
 
-        return back();
+        return response()->json(200);
 
 
     }
@@ -158,6 +158,7 @@ class ApiUsersController extends Controller
         $client->nominal = $request->nominal;
         $client->isActive = false;
         $client->created_at = date('d-m-Y H:i:s');
+        $alamat->save();
 
         // \Mail::to($email)->send(new \App\Mail\NewUserNotification($detail));
 
