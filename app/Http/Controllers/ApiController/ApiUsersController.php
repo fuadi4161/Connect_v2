@@ -166,20 +166,28 @@ class ApiUsersController extends Controller
         return response()->json(200);
     }
 
-    public function getAllNoLunas(){
-        $userID = DB::table('client')->where('isLunas', true)
-        ->select('client.id_user')
-        ->get();
+    public function getAllNoLunas(Request $request){
 
-        foreach($userID as $ids){
-            DB::table('client')
-              ->where('id_user', $ids->id_user)
-              ->update([
-                'isLunas' => 0,
+        $lastBulan = DB::table('pembayaran')->latest()->first();
 
-            ]);
+        if($lastBulan->bulan != $request->bulan){
+                $userID = DB::table('client')->where('isLunas', true)
+                    ->select('client.id_user')
+                    ->get();
+
+                    foreach($userID as $ids){
+                        DB::table('client')
+                        ->where('id_user', $ids->id_user)
+                        ->update([
+                    'isLunas' => 0,
+
+                        ]);
+                    }
+                    return response()->json($lastBulan, 200);
+        }else{
+             return response()->json($lastBulan, 201);
         }
-        return response()->json(200);
+        
     }
     
     public function editUser(Request $request){

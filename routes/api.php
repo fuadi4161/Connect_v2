@@ -41,7 +41,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('users/delete/{id}', 'ApiController\ApiUsersController@hapusUser');
 
     // Untuk memindahkan semua users ke status belum lunas
-    Route::get('AllUsersNotLunas', 'ApiController\ApiUsersController@getAllNoLunas'); 
+    Route::post('AllUsersNotLunas', 'ApiController\ApiUsersController@getAllNoLunas'); 
        
 
         // Url update profile
