@@ -81,6 +81,18 @@ class ApiPaymentController extends Controller
 
     // }
 
+
+    // Menampilkan users yang belum lunas untuk dapat di input iuran oleh admin
+    public function getUsersNotLunas(){
+
+        $data = DB::table('client')->where('isLunas', false)
+                ->leftJoin('users', 'client.id_user','=','users.id')
+                ->select('client.nominal', 'users.avatar','users.id')
+                ->get();
+
+            return response()->json($data);
+    }
+
     // Untuk input otomatis payment users yang dilakukan oleh admin dari panding ke lunas
     public function adminPostPayment(Request $request){
 
@@ -125,6 +137,7 @@ class ApiPaymentController extends Controller
                     DB::table('client')->where('client.id_user' , $userid)
                          ->update([
                             'isActive' => 1,
+                            'isLunas' => 1,
                             'updated_at' => date('d-m-Y H:i:s'),
                             
                         ]);
@@ -208,6 +221,15 @@ class ApiPaymentController extends Controller
                     $date = Carbon::now()->format('d-MM-YYYY');
 
 
+                    DB::table('pembayaran')->where([
+                        ['user_id', '=', $userid],
+                        ['cek', '=', Carbon::now()->format('Y-m')],
+                    ])    
+                    ->update([
+                        'status' => true,
+                        'updated_at' => date('d-m-Y H:i:s'),
+                    ]);
+
                     DB::table('notifikasi')->insert([
                             'user_id' => $userid,
                             'judul' => 'Iuran',
@@ -220,7 +242,7 @@ class ApiPaymentController extends Controller
                     DB::table('aktivitas')->insert([
                         'user_id' => Auth::user()->id,
                         'judul' => 'Konfirmasi Iuran',
-                        'deskripsi' => Auth::user()->name +' Telah mengkonfirmasi iuran '+ $datausers->name,
+                        'deskripsi' => 'Admin Telah mengkonfirmasi iuran '+ $datausers->name,
                         'created_at' => date('d-m-Y H:i:s'),
                         'updated_at' => date('d-m-Y H:i:s'),
                     ]);
@@ -229,18 +251,10 @@ class ApiPaymentController extends Controller
                     DB::table('client')->where('client.id_user' , $userid)
                          ->update([
                             'isActive' => 1,
+                            'isLunas' => 1,
                             'updated_at' => date('d-m-Y H:i:s'),
                             
                         ]);
-
-                    DB::table('pembayaran')->where([
-                        ['user_id', '=', $userid],
-                        ['cek', '=', Carbon::now()->format('Y-m')],
-                    ])    
-                    ->update([
-                        'status' => true,
-                        'updated_at' => date('d-m-Y H:i:s'),
-                    ]);
 
                     // $getToken = DB::table('users')->where('id', $user)->get();
 
@@ -524,6 +538,13 @@ class ApiPaymentController extends Controller
                 ['status' => true],
                 ['updated_at' => date('d-m-Y H:i:s')]
           );
+          DB::table('client')
+              ->where('id_user', $request->id)
+              ->update(
+                ['isLunas' => true],
+                ['updated_at' => date('d-m-Y H:i:s')]
+          );
+
 
         DB::table('notifikasi')->insert([
                 'user_id' => $request->user,

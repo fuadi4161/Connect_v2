@@ -88,12 +88,15 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('payment/useradd', 'ApiController\ApiPaymentController@usersAddPayment'); // ok
         // Untuk menambahkan payment secara manual oleh admin
     Route::post('payment/adminadd', 'ApiController\ApiPaymentController@adminAddPayment'); // ok
+        // Untuk menampilkan data users yang belum lunas untuk generate iuran oleh admin
+    Route::get('payment/noLunas','ApiController\ApiPaymentController@getUsersNotLunas');
         // Untuk admin menginput otomatis payment sesuai data dari users
     Route::post('payment/adminpost', 'ApiController\ApiPaymentController@adminPostPayment'); // ok
         // Untuk admin mengkonfirmasi iuran yang di kirim oleh users
     Route::post('payment/acc', 'ApiController\ApiPaymentController@adminAccPayment'); // ok
         // Untuk menampilkan pembayran yang meminta konfirmasi admin
     Route::get('payment/req', 'ApiController\ApiPaymentController@reqIuran'); // ok
+
 
 
     //Notifikasi
