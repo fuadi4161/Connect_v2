@@ -116,10 +116,12 @@ class ApiPaymentController extends Controller
                             ->leftJoin('client', 'users.id', '=', 'client.id_user')
                             ->select('client.nominal','users.*')
                             ->get();
-                        foreach ($nominal as $detail) {
-                            $items = $detail->nominal;
-                            $name = $detail->name;
-                        }
+
+                            return response()->json($nominal);
+                        // foreach ($nominal as $detail) {
+                        //     $items = $detail->nominal;
+                        //     $name = $detail->name;
+                        // }
 
                     // membuat input pembayaran ketika users tergenerate lunas
                     DB::table('pembayaran')->insert([
@@ -312,10 +314,10 @@ class ApiPaymentController extends Controller
             }
 
 
-        return response()->json([
-            'success' => true,
-            'pesan' => 'Berhasil update data'
-        ],201);
+        // return response()->json([
+        //     'success' => true,
+        //     'pesan' => 'Berhasil update data'
+        // ],201);
         
     }
 
