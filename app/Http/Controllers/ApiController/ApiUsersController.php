@@ -171,7 +171,8 @@ class ApiUsersController extends Controller
         $lastBulan = DB::table('pembayaran')->latest()->first();
 
         if($lastBulan->bulan == $request->bulan){
-                return response()->json($lastBulan, 201);
+
+                return response()->json($lastBulan->bulan, 201);
         }else{
             $userID = DB::table('client')->where('isLunas', true)
                     ->select('client.id_user')
@@ -185,7 +186,7 @@ class ApiUsersController extends Controller
 
                         ]);
                     }
-                    return response()->json($lastBulan, 200);
+                    return response()->json($lastBulan->bulan, 200);
              
         }
         
