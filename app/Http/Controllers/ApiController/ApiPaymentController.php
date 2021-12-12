@@ -87,7 +87,7 @@ class ApiPaymentController extends Controller
 
         $data = DB::table('client')->where('isLunas', false)
                 ->leftJoin('users', 'client.id_user','=','users.id')
-                ->select('client.nominal', 'users.avatar','users.id')
+                ->select('client.nominal', 'users.avatar','users.id','users.name')
                 ->get();
 
             return response()->json($data);
