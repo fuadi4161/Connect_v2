@@ -85,6 +85,8 @@ class ApiPaymentController extends Controller
     // Menampilkan users yang belum lunas untuk dapat di input iuran oleh admin
     public function getUsersNotLunas(){
 
+        
+
         $data = DB::table('client')->where('isLunas', false)
                 ->leftJoin('users', 'client.id_user','=','users.id')
                 ->leftJoin('alamat', 'client.id_user','=','alamat.user_id')
@@ -218,7 +220,7 @@ class ApiPaymentController extends Controller
                     // curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
 
                 } else {
-                    
+
                     $users = DB::table('users')->where('users.id', $request->userid)
                             ->leftJoin('client', 'users.id', '=', 'client.id_user')
                             ->select('users.*', 'client.nominal')

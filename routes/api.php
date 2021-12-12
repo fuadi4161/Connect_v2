@@ -39,6 +39,9 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('users/edit/{id}', 'ApiController\ApiUsersController@editUser');
         // Untuk menghapus users (admin)
     Route::get('users/delete/{id}', 'ApiController\ApiUsersController@hapusUser');
+
+    // Untuk memindahkan semua users ke status belum lunas
+    Route::get('AllUsersNotLunas', 'ApiController\ApiUsersController@getAllNoLunas'); 
        
 
         // Url update profile
