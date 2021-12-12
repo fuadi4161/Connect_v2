@@ -168,7 +168,7 @@ class ApiUsersController extends Controller
 
     public function getAllNoLunas(Request $request){
 
-        $lastBulan = DB::table('pembayaran')->latest()->first();
+        $lastBulan = DB::table('pembayaran')->latest('id')->first();
 
         if($lastBulan->bulan == $request->bulan){
 
