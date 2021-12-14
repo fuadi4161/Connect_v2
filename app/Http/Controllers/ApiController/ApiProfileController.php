@@ -76,4 +76,24 @@ class ApiProfileController extends Controller
         return response()->json($data);
     }
 
+    public function postAvatar(Request $request) {
+        if ($request->hasFile('file')) {
+                $file = $request->file('file');
+                $filename = Auth::user()->name . '_' . time() . '.' . $file->getClientOriginalName();
+                $avatar = 'https://connect.ip2sr.site/assets/images/avatars/' . Auth::user()->name . '_' . time() . '.' . $file->getClientOriginalName();
+                $file->move('assets/images/avatars', $filename);
+                File::delete('assets/images/avatars' . $user->dokumen);
+            }
+
+    $files = $request->file('file');
+            DB::table('users')->where('id', $user->id)
+                ->update([
+                    'profile_photo' => $filename,
+                    'avatar' => 'https://ip2sr.site/assets/images/avatars/' . Auth::user()->name . '_' . time() . '.' . $files->getClientOriginalName(),
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'updated_at' => date('Y-m-d H:i:s'),
+                ]);
+    }
+
 }

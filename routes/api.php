@@ -48,6 +48,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('profile/username','ApiController\ApiProfileController@updateUsername');
     Route::post('profile/email','ApiController\ApiProfileController@updateEmail');
     Route::post('profile/password','ApiController\ApiProfileController@updatePassword');
+    Route::post('profile/avatar','ApiController\ApiProfileController@postAvatar');
         //Url update alamat
     Route::post('profile/kecamatan','ApiController\ApiProfileController@updateKecamatan');
     Route::post('profile/desa','ApiController\ApiProfileController@updateDesa');
