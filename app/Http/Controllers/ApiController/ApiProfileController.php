@@ -83,9 +83,8 @@ class ApiProfileController extends Controller
                 $avatar = 'https://connect.ip2sr.site/assets/images/avatars/' . Auth::user()->name . '_' . time() . '.' . $file->getClientOriginalName();
                 $file->move('assets/images/avatars', $filename);
                 File::delete('assets/images/avatars' . $user->dokumen);
-            }
 
-    $files = $request->file('file');
+                $files = $request->file('file');
             DB::table('users')->where('id', $user->id)
                 ->update([
                     'profile_photo' => $filename,
@@ -94,6 +93,10 @@ class ApiProfileController extends Controller
                     'email' => $request->email,
                     'updated_at' => date('Y-m-d H:i:s'),
                 ]);
+
+                return response()->json(200);
+        }
+            
     }
 
 }
