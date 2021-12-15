@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::post('login', 'ApiController\ApiLoginController@login');
 Route::post('profile/avatar','ApiController\ApiProfileController@postAvatar');
+Route::post('profile/background','ApiController\ApiProfileController@postBackground');
 
 
 Route::group(['middleware' => ['auth:api']], function () {

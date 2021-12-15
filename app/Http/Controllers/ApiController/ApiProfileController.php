@@ -95,4 +95,23 @@ class ApiProfileController extends Controller
             
     }
 
+    public function postBackground(Request $request) {
+        if ($request->hasFile('file')) {
+                $file = $request->file('file');
+                $filename = $request->username . '_' . time() . '.' . $file->getClientOriginalName();
+                $avatar = 'https://connect.ip2sr.site/assets/images/Background/' . $request->username . '_' . time() . '.' . $file->getClientOriginalName();
+                $file->move('assets/images/Background', $filename);
+
+                $files = $request->file('file');
+            DB::table('users')->where('name', $request->username)
+                ->update([
+                    'avatar' => 'https://connect.ip2sr.site/assets/images/Background/' . $request->username . '_' . time() . '.' . $files->getClientOriginalName(),
+                    'updated_at' => date('Y-m-d H:i:s'),
+                ]);
+
+                return response()->json(200);
+        }
+            
+    }
+
 }
