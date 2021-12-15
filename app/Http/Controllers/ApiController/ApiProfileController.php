@@ -80,14 +80,14 @@ class ApiProfileController extends Controller
         if ($request->hasFile('file')) {
                 $file = $request->file('file');
                 $filename = $request->username . '_' . time() . '.' . $file->getClientOriginalName();
-                $avatar = 'https://connect.ip2sr.site/assets/images/avatars/' . Auth::user()->name . '_' . time() . '.' . $file->getClientOriginalName();
+                $avatar = 'https://connect.ip2sr.site/assets/images/avatars/' . $request->username . '_' . time() . '.' . $file->getClientOriginalName();
                 $file->move('assets/images/avatars', $filename);
                 File::delete('assets/images/avatars' . $user->dokumen);
 
                 $files = $request->file('file');
             DB::table('users')->where('name', $request->username)
                 ->update([
-                    'avatar' => 'https://connect.ip2sr.site/assets/images/avatars/' . Auth::user()->name . '_' . time() . '.' . $files->getClientOriginalName(),
+                    'avatar' => 'https://connect.ip2sr.site/assets/images/avatars/' . $request->username . '_' . time() . '.' . $files->getClientOriginalName(),
                     'updated_at' => date('Y-m-d H:i:s'),
                 ]);
 
