@@ -82,7 +82,6 @@ class ApiProfileController extends Controller
                 $filename = $request->username . '_' . time() . '.' . $file->getClientOriginalName();
                 $avatar = 'https://connect.ip2sr.site/assets/images/avatars/' . $request->username . '_' . time() . '.' . $file->getClientOriginalName();
                 $file->move('assets/images/avatars', $filename);
-                File::delete('assets/images/avatars' . $user->dokumen);
 
                 $files = $request->file('file');
             DB::table('users')->where('name', $request->username)
