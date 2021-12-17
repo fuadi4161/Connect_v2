@@ -117,9 +117,9 @@ Route::group(['middleware' => ['auth:api']], function () {
 
 
     //Berita
-     Route::get('info', 'ApiController\ApiBeritaController@getAktif'); // 
-     Route::post('info/post', 'ApiController\ApiBeritaController@getAktif'); // ok
-     Route::get('info/delete/{id}', 'ApiController\ApiBeritaController@getAktif'); // ok
+     Route::get('info', 'ApiController\ApiBeritaController@getBerita'); // 
+     Route::post('info/post', 'ApiController\ApiBeritaController@postBerita'); // ok
+     Route::get('info/delete/{id}', 'ApiController\ApiBeritaController@deleteBerita'); // ok
 
 
 

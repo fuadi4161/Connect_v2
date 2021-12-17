@@ -21,7 +21,7 @@ class ApiBeritaController extends Controller
                 $file = $request->file('file');
                 $filename = $request->judul . '_' . time() . '.' . $file->getClientOriginalName();
                 $avatar = 'https://connect.ip2sr.site/assets/images/berita/' . $request->judul . '_' . time() . '.' . $file->getClientOriginalName();
-                $file->move('assets/images/Background', $filename);
+                $file->move('assets/images/berita', $filename);
 
                 $files = $request->file('file');
            DB::table('berita')
