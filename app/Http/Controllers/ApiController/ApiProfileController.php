@@ -105,7 +105,7 @@ class ApiProfileController extends Controller
                 $files = $request->file('file');
             DB::table('users')->where('name', $request->username)
                 ->update([
-                    'avatar' => 'https://connect.ip2sr.site/assets/images/Background/' . $request->username . '_' . time() . '.' . $files->getClientOriginalName(),
+                    'back_profile' => 'https://connect.ip2sr.site/assets/images/Background/' . $request->username . '_' . time() . '.' . $files->getClientOriginalName(),
                     'updated_at' => date('Y-m-d H:i:s'),
                 ]);
 
