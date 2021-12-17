@@ -42,7 +42,7 @@ class ApiBeritaController extends Controller
     }
 
     public function deleteBerita($id){
-         DB::table('berita')->where('id', $request->id)->delete();
+         DB::table('berita')->where('id', $id)->delete();
 
         return response()->json(['pesan' => 'berhasil read notif']);
     }
