@@ -116,6 +116,11 @@ Route::group(['middleware' => ['auth:api']], function () {
      Route::get('aktivitas/user', 'ApiController\ApiAktivitasController@getByUsers'); // ok
 
 
+    //Berita
+     Route::get('info', 'ApiController\ApiBeritaController@getAktif'); // 
+     Route::post('info/post', 'ApiController\ApiBeritaController@getAktif'); // ok
+     Route::get('info/delete/{id}', 'ApiController\ApiBeritaController@getAktif'); // ok
+
 
 
 
