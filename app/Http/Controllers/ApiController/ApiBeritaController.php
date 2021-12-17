@@ -11,7 +11,8 @@ class ApiBeritaController extends Controller
 {
     public function getBerita(){
 
-        $data = DB::table('berita')->get();
+        $data = DB::table('berita')->orderBy('id', 'DESC')
+            ->get();
 
         return response()->json($data);
     }
@@ -41,6 +42,8 @@ class ApiBeritaController extends Controller
     }
 
     public function deleteBerita($id){
+         DB::table('berita')->where('id', $request->id)->delete();
 
+        return response()->json(['pesan' => 'berhasil read notif']);
     }
 }
